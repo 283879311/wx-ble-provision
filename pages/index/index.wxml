@@ -1,0 +1,156 @@
+<view class="page">
+
+  <!-- 扫描与设备列表 -->
+  <view class="card">
+    <view class="row between">
+      <view>
+        <view class="title">蓝牙设备</view>
+        <view class="hint">按 NUS 服务 UUID 过滤，仅显示可配网设备</view>
+      </view>
+      <button
+        class="btn sm {{discovering ? 'ghost' : 'primary'}}"
+        bindtap="onToggleScan"
+        disabled="{{connecting !== ''}}"
+      >{{discovering ? '停止' : '扫描'}}</button>
+    </view>
+
+    <view wx:if="{{adapterHint}}" class="warn-box" bindtap="_promptOpenBluetooth">{{adapterHint}}（点击本条可前往打开蓝牙）</view>
+
+    <view wx:if="{{devices.length === 0}}" class="empty">
+      {{discovering ? '正在扫描…请让设备保持上电广播' : (connected ? '连接态下设备已停止广播，要重新扫描请先断开' : '点击「扫描」发现设备')}}
+    </view>
+
+    <view
+      wx:for="{{devices}}"
+      wx:for-item="ap"
+      wx:key="deviceId"
+      class="ap {{ap.stale ? 'stale' : ''}}"
+      bindtap="onConnect"
+      data-id="{{ap.deviceId}}"
+      data-name="{{ap.name}}"
+    >
+      <view style="flex: 1; min-width: 0;">
+        <view class="ap-name {{connected && connectedId === ap.deviceId ? 'on' : ''}}">{{ap.name}}</view>
+        <view class="ap-meta mono">{{ap.deviceId}}</view>
+      </view>
+      <view class="row" style="flex: 0 0 auto;">
+        <view class="bars">
+          <view
+            wx:for="{{[1,2,3,4]}}"
+            wx:for-item="bar"
+            wx:for-index="bi"
+            wx:key="*this"
+            class="b {{bi < ap.bars ? 'on' : ''}}"
+            style="height: {{10 + bi * 4}}rpx"
+          ></view>
+        </view>
+        <view class="ap-meta">{{ap.rssiText}}</view>
+      </view>
+      <view class="age">{{ap.ageText}}</view>
+      <!-- 连接态配色：真连接=绿「断开」（点击断开）；上次设备但链路已断=红「已断开」；
+           其余=灰「连接」。断开后不再显示绿色。 -->
+      <view
+        class="tag {{connecting === ap.deviceId ? 'blue' : (connected && connectedId === ap.deviceId ? 'ok' : (connectedId === ap.deviceId ? 'err' : ''))}}"
+        style="margin-left: 12rpx;"
+      >
+        {{connecting === ap.deviceId ? '连接中' : (connected && connectedId === ap.deviceId ? '断开' : (connectedId === ap.deviceId ? '已断开' : '连接'))}}
+      </view>
+    </view>
+
+    <view wx:if="{{devices.length > 0}}" class="hint" style="margin-top: 16rpx;">
+      列表只包含本次扫描窗口内收到的广播；变灰表示已 12s 没有新广播
+    </view>
+  </view>
+
+  <!-- 已连接：设备登录（上）+ 设备信息（下） -->
+  <view class="card" wx:if="{{connected}}">
+    <view class="row between">
+      <view class="title">设备登录</view>
+      <view class="tag {{loggedIn ? 'ok' : 'warn'}}">{{loggedIn ? '已登录 ' + tokenLeft + 's' : '未登录'}}</view>
+    </view>
+
+    <view class="hint">{{deviceName}} · {{connectedId}}</view>
+    <!-- 连接态心跳（每 10s 查 RSSI）：断电/超范围时据此判离线，不再假在线 -->
+    <view class="hint" wx:if="{{probeRssi}}">心跳：信号 {{probeRssi}} · 最近检测 {{probeAt}}</view>
+
+    <!-- 登录表单（未登录时显示在设备信息上方） -->
+    <block wx:if="{{!loggedIn}}">
+      <view class="hint">已预填{{remember ? '记住的账号' : '出厂账号 admin / 123456'}}；勾选「记住密码」后，下次连接设备将用记住的凭据自动登录</view>
+      <input
+        class="input"
+        placeholder-class="input-placeholder"
+        placeholder="管理员账号"
+        value="{{username}}"
+        bindinput="onUsername"
+        confirm-type="next"
+      />
+      <input
+        class="input"
+        placeholder-class="input-placeholder"
+        placeholder="管理员密码"
+        password
+        value="{{password}}"
+        bindinput="onPassword"
+        confirm-type="done"
+        bindconfirm="onLogin"
+      />
+      <view class="row between" style="margin: 10rpx 4rpx;">
+        <view class="hint" style="margin: 0;">记住密码（连接后自动登录）</view>
+        <switch checked="{{remember}}" bindchange="onRememberToggle" color="#1a6dff"/>
+      </view>
+      <button
+        class="btn primary block"
+        bindtap="onLogin"
+        loading="{{loggingIn}}"
+        disabled="{{loggingIn}}"
+      >登录</button>
+    </block>
+
+    <view class="divider"></view>
+    <view class="title sm">设备信息</view>
+    <view class="kv" wx:for="{{infoRows}}" wx:key="k">
+      <text class="k">{{item.k}}</text>
+      <text class="v">{{item.v}}</text>
+    </view>
+
+    <view class="divider"></view>
+    <view class="title sm">实际发现的特征</view>
+    <view class="hint">{{serviceText}}</view>
+    <view class="kv" wx:for="{{resolvedRows}}" wx:key="k">
+      <text class="k">{{item.k}}</text>
+      <text class="v {{item.warn ? 'warn-text' : ''}}">{{item.v}}</text>
+    </view>
+
+    <!-- 已登录操作 -->
+    <block wx:if="{{loggedIn}}">
+      <view class="divider"></view>
+      <view class="hint">token 是连接级的：断开后设备立即作废，重连必须重新登录</view>
+      <button class="btn primary block" bindtap="onGoProvision">进入配置中心</button>
+      <button class="btn ghost block" bindtap="onGoAccept">进入验收</button>
+    </block>
+
+    <view wx:if="{{errText}}" class="err-box">
+      <view>{{errText}}</view>
+      <view wx:if="{{errHint}}" style="margin-top: 6rpx;">{{errHint}}</view>
+    </view>
+
+    <button class="btn ghost block" bindtap="onDisconnect">断开连接</button>
+  </view>
+
+  <!-- 日志 -->
+  <view class="card">
+    <view class="row between">
+      <view class="title">连接日志</view>
+      <view class="row">
+        <view class="link" bindtap="onCopyLog">复制</view>
+        <view class="link" style="margin-left: 24rpx;" bindtap="onClearLog">清空</view>
+      </view>
+    </view>
+    <scroll-view class="log" scroll-y scroll-into-view="{{scrollTo}}" scroll-with-animation>
+      <view wx:for="{{logs}}" wx:key="id" class="log-line {{item.kind}}">{{item.t}}  {{item.text}}</view>
+      <view wx:if="{{logs.length === 0}}" class="hint">暂无日志</view>
+      <view id="log-bottom" style="height: 4rpx;"></view>
+    </scroll-view>
+  </view>
+
+</view>

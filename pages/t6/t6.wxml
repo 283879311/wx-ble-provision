@@ -1,0 +1,105 @@
+<view class="pad">
+  <view class="card">
+    <view class="h1">链接状态</view>
+    <view style="font-size: 26rpx; color: #555;">
+      {{ready ? (loggedIn ? '已登录：' + (deviceName || deviceId) : '已连接未登录') : '未连接设备'}}
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="h1">套件（勾选后一键运行，全程自动）</view>
+    <view>
+      <view
+        wx:for="{{suites}}"
+        wx:key="v"
+        class="chip {{selected[item.v] ? 'on' : ''}}"
+        data-v="{{item.v}}"
+        bindtap="onToggleSuite"
+      >{{item.label}}</view>
+    </view>
+    <view style="margin-top: 12rpx;">
+      <text class="chip">循环轮数：</text>
+      <text
+        wx:for="{{roundChoices}}"
+        wx:key="*this"
+        class="chip {{rounds === item ? 'on' : ''}}"
+        data-v="{{item}}"
+        bindtap="onPickRounds"
+      >{{item}} 轮</text>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="h1">环境（自动记忆）</view>
+    <view class="row">
+      <text class="label">goodAp SSID</text>
+      <input value="{{goodSsid}}" bindinput="onGoodSsid" placeholder="=设备当前网络（防误改）" />
+    </view>
+    <view class="row">
+      <text class="label">goodAp 口令</text>
+      <input
+        class="pwdtext"
+        password="{{!goodPwdShow}}"
+        value="{{goodPassword}}"
+        bindinput="onGoodPassword"
+        placeholder="当前网络口令"
+      />
+      <text class="eye" bindtap="onToggleGoodPwd">{{goodPwdShow ? '隐藏' : '显示'}}</text>
+    </view>
+    <!-- 可见化配套：明文 + 长度/指纹/来源 + 卫生告警。
+         口令值设备不回传，唯一自证手段就是"人能看见原文"+"长度/指纹能和上次成功比"。 -->
+    <view class="pwdmeta">
+      {{goodPwdMeta}}
+      <text wx:if="{{goodPwdWarn}}" class="pwdwarn">⚠ {{goodPwdWarn}}</text>
+    </view>
+    <view class="pwdmeta pwdwarn" wx:if="{{lastBadPwd}}">
+      上一轮被设备拒绝的口令：「{{lastBadPwd}}」（指纹 {{lastBadPwdFp}}）—— 对照它改，别重复同一个值。
+    </view>
+    <view class="row">
+      <text class="label">failAp SSID</text>
+      <input value="{{failSsid}}" bindinput="onFailSsid" placeholder="broker 不可达 AP" />
+    </view>
+    <view class="row">
+      <text class="label">failAp 口令</text>
+      <input
+        password="{{!failPwdShow}}"
+        value="{{failPassword}}"
+        bindinput="onFailPassword"
+        placeholder="如 TQ2018"
+      />
+      <text class="eye" bindtap="onToggleFailPwd">{{failPwdShow ? '隐藏' : '显示'}}</text>
+    </view>
+    <view style="font-size: 22rpx; color: #999; margin-top: 8rpx;">
+      安全红线：apply 前强制核对 goodAp=设备当前网络，不一致自动中止；failpath 绝不 apply。
+    </view>
+    <view style="font-size: 22rpx; color: #999; margin-top: 4rpx;">
+      口令默认明文显示（本页为取证用测试页；输错时肉眼可辨，不必等 wrong_password）。日志里只打长度+指纹，不打原文。
+    </view>
+  </view>
+
+  <button class="btn" type="primary" bindtap="onRun" disabled="{{busy}}">▶ 一键运行（{{suites.length}} 套件可选）</button>
+  <view wx:if="{{progressText}}" style="text-align:center;color:#1a6dff;font-size:26rpx;">{{progressText}}</view>
+
+  <view class="card" wx:if="{{logLines.length}}">
+    <view style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12rpx;">
+      <view class="h1" style="margin-bottom:0;">运行日志</view>
+      <button class="btn" style="margin:0;padding:4rpx 28rpx;font-size:24rpx;line-height:1.8;" bindtap="onCopyLog">复制日志</button>
+    </view>
+    <scroll-view scroll-y class="log scroll" scroll-into-view="{{scrollTo}}">
+      <view id="L{{index}}" wx:for="{{logLines}}" wx:key="index">{{item}}</view>
+    </scroll-view>
+  </view>
+
+  <view class="card" wx:if="{{results.length}}">
+    <view class="h1">结果 <text class="sum">{{summary.pass}}/{{summary.total}}</text></view>
+    <scroll-view scroll-y class="scroll">
+      <view class="res" wx:for="{{results}}" wx:key="id">
+        <view>
+          <text class="tag {{item.pass ? 'ok' : 'bad'}}">{{item.pass ? 'PASS' : 'FAIL'}}</text>
+          <text>[{{item.id}}] {{item.name}}</text>
+        </view>
+        <view class="detail" wx:if="{{item.detail}}">{{item.detail}}</view>
+      </view>
+    </scroll-view>
+  </view>
+</view>

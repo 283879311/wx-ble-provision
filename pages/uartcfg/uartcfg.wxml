@@ -1,0 +1,161 @@
+<view class="page">
+
+  <!-- 未连接 -->
+  <view class="card" wx:if="{{!ready}}">
+    <view class="title">尚未连接设备</view>
+    <view class="hint">UART 配置需要通过 BLE 发送，请先在「设备」页扫描并连接，完成管理员登录后再回来。</view>
+    <button class="btn primary block" bindtap="goDevice">去连接设备</button>
+  </view>
+
+  <!-- 未登录 -->
+  <view class="card" wx:elif="{{!loggedIn}}">
+    <view class="title">需要先登录</view>
+    <view class="hint">config.get / config.set 都需要 token。请回到「设备」页完成 auth.login。</view>
+    <button class="btn primary block" bindtap="goDevice">去登录</button>
+  </view>
+
+  <block wx:else>
+
+    <!-- UART 探测：引脚只读 + 串口参数 -->
+    <view class="card">
+      <view class="row between">
+        <view>
+          <view class="title">UART 探测</view>
+          <view class="hint">引脚由固件固定，只读；串口参数经 config.set(uart 域) 保存，子系统重应用、不整机重启</view>
+        </view>
+        <button class="btn sm act primary" bindtap="onQuery" loading="{{querying}}"
+          disabled="{{querying}}">{{querying ? '查询中' : '查询'}}</button>
+      </view>
+
+      <view class="uart-grid">
+        <view class="uart-cell">
+          <view class="hint">接收引脚</view>
+          <view class="uart-gpio mono">{{rxGpio}}</view>
+        </view>
+        <view class="uart-cell">
+          <view class="hint">发送引脚</view>
+          <view class="uart-gpio mono">{{txGpio}}</view>
+        </view>
+      </view>
+
+      <view class="uart-grid">
+        <view class="uart-cell">
+          <view class="hint">波特率</view>
+          <picker range="{{baudLabels}}" value="{{baudIndex}}" bindchange="onBaudChange">
+            <view class="input picker-box">
+              <text>{{baudLabels[baudIndex]}}</text>
+              <text class="picker-arrow">▾</text>
+            </view>
+          </picker>
+        </view>
+        <view class="uart-cell">
+          <view class="hint">数据位</view>
+          <picker range="{{dataBitsLabels}}" value="{{dataBitsIndex}}" bindchange="onDataBitsChange">
+            <view class="input picker-box">
+              <text>{{dataBitsLabels[dataBitsIndex]}}</text>
+              <text class="picker-arrow">▾</text>
+            </view>
+          </picker>
+        </view>
+      </view>
+
+      <view class="uart-grid">
+        <view class="uart-cell">
+          <view class="hint">停止位</view>
+          <picker range="{{stopBitsLabels}}" value="{{stopBitsIndex}}" bindchange="onStopBitsChange">
+            <view class="input picker-box">
+              <text>{{stopBitsLabels[stopBitsIndex]}}</text>
+              <text class="picker-arrow">▾</text>
+            </view>
+          </picker>
+        </view>
+        <view class="uart-cell">
+          <view class="hint">奇偶校验</view>
+          <picker range="{{parityLabels}}" value="{{parityIndex}}" bindchange="onParityChange">
+            <view class="input picker-box">
+              <text>{{parityLabels[parityIndex]}}</text>
+              <text class="picker-arrow">▾</text>
+            </view>
+          </picker>
+        </view>
+      </view>
+
+      <view wx:if="{{isCustomBaud}}" class="uart-cell" style="width: 100%;">
+        <view class="hint">自定义波特率（1–4000000）</view>
+        <input class="input" type="number" placeholder-class="input-placeholder"
+          placeholder="如 250000" value="{{customBaud}}" bindinput="onCustomBaudInput" />
+      </view>
+
+      <button class="btn primary block" bindtap="onSave" loading="{{saving}}"
+        disabled="{{saving}}">{{saving ? '保存中' : '保存 UART 配置'}}</button>
+      <view wx:if="{{saveResult}}" class="ok-box mono" style="margin-top: 12rpx; white-space: pre-wrap;">{{saveResult}}</view>
+      <view class="uart-status {{traceKind}}">{{trace}}</view>
+      <view class="hint">只下发与查询基线有差异的字段。改波特率/校验后设备按新参数重新初始化串口，接在串口上的外设必须同步改成相同参数，否则会收到乱码。</view>
+    </view>
+
+    <!-- 收发窗口：走 BLE DATA 通道 -->
+    <view class="card">
+      <view class="row between">
+        <view>
+          <view class="title">收发窗口</view>
+          <view class="hint">已收 {{rxBytes}}B / {{rxFrames}} 帧 · 与命令通道分离的裸字节通道，无 ACK/重传</view>
+        </view>
+        <view class="link" bindtap="onClearRx">清空</view>
+      </view>
+
+      <view class="uart-grid">
+        <view class="uart-cell">
+          <view class="hint">接收显示</view>
+          <picker range="{{fmtLabels}}" value="{{rxFmtIndex}}" bindchange="onRxFmtChange">
+            <view class="input picker-box">
+              <text>{{fmtLabels[rxFmtIndex]}}</text>
+              <text class="picker-arrow">▾</text>
+            </view>
+          </picker>
+        </view>
+        <view class="uart-cell">
+          <view class="hint">发送编码</view>
+          <picker range="{{fmtLabels}}" value="{{txFmtIndex}}" bindchange="onTxFmtChange">
+            <view class="input picker-box">
+              <text>{{fmtLabels[txFmtIndex]}}</text>
+              <text class="picker-arrow">▾</text>
+            </view>
+          </picker>
+        </view>
+      </view>
+
+      <view class="hint">接收数据</view>
+      <scroll-view class="uart-console mono" scroll-y scroll-into-view="{{rxScrollTo}}" scroll-with-animation>
+        <text wx:if="{{rxText}}">{{rxText}}</text>
+        <view wx:else class="hint" style="margin: 0;">暂无数据 · 设备串口收到的字节会出现在这里</view>
+        <view id="rx-bottom" style="height: 4rpx;"></view>
+      </scroll-view>
+
+      <view class="hint">发送数据</view>
+      <view class="uart-send-row">
+        <input class="input mono uart-send" placeholder-class="input-placeholder"
+          placeholder="{{txFormat === 'hex' ? '如 01 02 0A FF（空格可分隔）' : '输入待发送文本'}}"
+          maxlength="255" value="{{txData}}" bindinput="onTxInput"
+          confirm-type="send" bindconfirm="onSend" />
+        <button class="btn sm act primary" bindtap="onSend" loading="{{sending}}"
+          disabled="{{sending}}">{{sending ? '发送中' : '发送'}}</button>
+      </view>
+      <view class="hint">收发走 BLE DATA 通道。能否到达串口取决于设备数据面路由（data_route_uart1 / data_route_ble），固件默认 UART1↔BLE↔MQTT；若这里收发无反应，先去确认设备侧路由是否被改过。</view>
+    </view>
+
+    <!-- 操作日志 -->
+    <view class="card">
+      <view class="row between">
+        <view class="title">操作日志</view>
+        <view style="display:flex;"><view class="link" bindtap="onCopyLog" style="margin-right:24rpx;">复制</view><view class="link" bindtap="onClearLog">清空</view></view>
+      </view>
+      <scroll-view class="log" scroll-y scroll-into-view="{{scrollTo}}" scroll-with-animation>
+        <view wx:for="{{logs}}" wx:key="id" class="log-line {{item.kind}}">{{item.t}}  {{item.text}}</view>
+        <view wx:if="{{logs.length === 0}}" class="hint">暂无日志</view>
+        <view id="log-bottom" style="height: 4rpx;"></view>
+      </scroll-view>
+    </view>
+
+  </block>
+
+</view>

@@ -1,0 +1,92 @@
+<view class="page">
+
+  <!-- 未连接 -->
+  <view class="card" wx:if="{{!ready}}">
+    <view class="title">尚未连接设备</view>
+    <view class="hint">MQTT 配置命令需要通过 BLE 发送，请先在「设备」页扫描并连接，完成管理员登录后再回来。</view>
+    <button class="btn primary block" bindtap="goDevice">去连接设备</button>
+  </view>
+
+  <!-- 未登录 -->
+  <view class="card" wx:elif="{{!loggedIn}}">
+    <view class="title">需要先登录</view>
+    <view class="hint">除 device.info 外，所有 v1 命令都需要 token。请回到「设备」页完成 auth.login。</view>
+    <button class="btn primary block" bindtap="goDevice">去登录</button>
+  </view>
+
+  <block wx:else>
+
+    <!-- MQTT 服务器：查询与配置 -->
+    <view class="card">
+      <view class="row between">
+        <view>
+          <view class="title">MQTT 服务器</view>
+          <view class="hint">查询 config.get(mqtt) + 运行态；配置经 config.set(mqtt 域)，子系统重连生效、不整机重启</view>
+        </view>
+        <button class="btn sm act primary" bindtap="onMqttQuery" loading="{{mqttQuerying}}"
+          disabled="{{mqttQuerying}}">{{mqttQuerying ? '查询中' : '查询'}}</button>
+      </view>
+
+      <view class="kv" wx:for="{{mqttRows}}" wx:key="k">
+        <text class="k">{{item.k}}</text>
+        <text class="v mono {{item.tone === 'err' ? 'tone-err' : (item.tone === 'warn' ? 'tone-warn' : (item.tone === 'ok' ? 'tone-ok' : ''))}}">{{item.v}}</text>
+      </view>
+      <view wx:if="{{mqttRows.length === 0}}" class="empty">点「查询」读取当前 MQTT 配置与连接状态</view>
+
+      <view class="divider"></view>
+
+      <view class="hint">点「查询」回填设备当前值；保存只下发有差异的字段。host / token 留空 = 保留设备当前值；token 只下发不回显，换新 token 直接填，清除用下方开关</view>
+      <view class="hint">backend（与固件 mqtt.c 三态一致）</view>
+      <picker range="{{backendLabels}}" value="{{mqttForm.backendIndex}}" bindchange="onMqttBackendChange">
+        <view class="input picker-box">
+          <text>{{backendLabels[mqttForm.backendIndex]}}</text>
+          <text class="picker-arrow">▾</text>
+        </view>
+      </picker>
+      <view class="hint">host</view>
+      <input class="input" placeholder-class="input-placeholder" placeholder="broker 主机名或 IP（留空保留）"
+        value="{{mqttForm.host}}" bindinput="onMqttHostInput" />
+      <view class="hint">port（1–65535）</view>
+      <input class="input" placeholder-class="input-placeholder" placeholder="如 1883 / 8883(TLS)" type="number"
+        value="{{mqttForm.port}}" bindinput="onMqttPortInput" />
+      <view class="hint">token（写后不回显）</view>
+      <input class="input" placeholder-class="input-placeholder" placeholder="留空保留当前 token" password
+        value="{{mqttForm.token}}" bindinput="onMqttTokenInput" />
+
+      <view class="row between" style="margin-top: 16rpx;">
+        <view style="flex: 1; min-width: 0;">
+          <view class="title sm" style="margin: 0;">TLS</view>
+          <view class="hint">开启后建议配 8883 端口</view>
+        </view>
+        <switch checked="{{mqttForm.useTls}}" bindchange="onMqttTlsChange" color="#1a6dff" />
+      </view>
+      <view class="row between" style="margin-top: 12rpx;">
+        <view style="flex: 1; min-width: 0;">
+          <view class="title sm" style="margin: 0;">清除已存 token</view>
+          <view class="hint">与「填新 token」互斥；保存后设备以匿名/无 token 方式连接</view>
+        </view>
+        <switch checked="{{mqttForm.clearToken}}" bindchange="onMqttClearTokenChange" color="#d93025" />
+      </view>
+
+      <button class="btn primary block" style="margin-top: 20rpx;" bindtap="onMqttSave"
+        loading="{{mqttSaving}}" disabled="{{mqttSaving}}">{{mqttSaving ? '保存中' : '保存 MQTT 配置'}}</button>
+      <view wx:if="{{mqttResult}}" class="ok-box mono" style="margin-top: 12rpx; white-space: pre-wrap;">{{mqttResult}}</view>
+      <view class="hint" style="margin-top: 10rpx;">保存后设备会重连 MQTT（约 2.5s 自动复查连接状态）；保存只表示配置已受理，连接结果以「查询」的运行态为准</view>
+    </view>
+
+    <!-- 日志 -->
+    <view class="card">
+      <view class="row between">
+        <view class="title">操作日志</view>
+        <view style="display:flex;"><view class="link" bindtap="onCopyLog" style="margin-right:24rpx;">复制</view><view class="link" bindtap="onClearLog">清空</view></view>
+      </view>
+      <scroll-view class="log" scroll-y scroll-into-view="{{scrollTo}}" scroll-with-animation>
+        <view wx:for="{{logs}}" wx:key="id" class="log-line {{item.kind}}">{{item.t}}  {{item.text}}</view>
+        <view wx:if="{{logs.length === 0}}" class="hint">暂无日志</view>
+        <view id="log-bottom" style="height: 4rpx;"></view>
+      </scroll-view>
+    </view>
+
+  </block>
+
+</view>

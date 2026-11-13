@@ -1,0 +1,51 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/provision/provision",
+    "pages/netcfg/netcfg",
+    "pages/mqttcfg/mqttcfg",
+    "pages/blecfg/blecfg",
+    "pages/uartcfg/uartcfg",
+    "pages/accept/accept",
+    "pages/t3/t3",
+    "pages/t4/t4",
+    "pages/t5/t5",
+    "pages/stress/stress",
+    "pages/console/console",
+    "pages/t6/t6"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "IotHub BLE 配置",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f2f4f7"
+  },
+  "tabBar": {
+    "color": "#8a8f99",
+    "selectedColor": "#1a6dff",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "设备"
+      },
+      {
+        "pagePath": "pages/provision/provision",
+        "text": "配置"
+      },
+      {
+        "pagePath": "pages/accept/accept",
+        "text": "验收"
+      },
+      {
+        "pagePath": "pages/console/console",
+        "text": "调试"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

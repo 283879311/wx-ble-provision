@@ -1,0 +1,577 @@
+/* 全局样式：浅色、克制、信息密度适中 */
+
+page {
+  background: #f2f4f7;
+  color: #171a1f;
+  font-size: 28rpx;
+  font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+}
+
+.page {
+  padding: 24rpx 24rpx 48rpx;
+  box-sizing: border-box;
+}
+
+/* ---------- 卡片 ---------- */
+.card {
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(17, 24, 39, 0.04);
+}
+
+.card.tight {
+  padding: 20rpx 24rpx;
+}
+
+/* ---------- 布局 ---------- */
+.row {
+  display: flex;
+  align-items: center;
+}
+
+.row.between {
+  justify-content: space-between;
+}
+
+.row.wrap {
+  flex-wrap: wrap;
+}
+
+.gap {
+  margin-left: 16rpx;
+}
+
+.title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #171a1f;
+  line-height: 1.4;
+}
+
+.title.sm {
+  font-size: 28rpx;
+  margin-bottom: 8rpx;
+}
+
+.hint {
+  font-size: 24rpx;
+  color: #8a8f99;
+  line-height: 1.5;
+  margin-top: 6rpx;
+}
+
+.divider {
+  height: 1rpx;
+  background: #eef0f4;
+  margin: 24rpx 0;
+}
+
+/* ---------- 标签 ---------- */
+.tag {
+  display: inline-block;
+  font-size: 22rpx;
+  padding: 4rpx 14rpx;
+  border-radius: 999rpx;
+  background: #eef2f7;
+  color: #5b6371;
+  line-height: 1.6;
+}
+
+.tag.ok {
+  background: #e8f7ee;
+  color: #0a8f4d;
+}
+
+.tag.warn {
+  background: #fdf3e4;
+  color: #b45309;
+}
+
+.tag.err {
+  background: #fdecec;
+  color: #d93b3b;
+}
+
+.tag.blue {
+  background: #eaf1ff;
+  color: #1a6dff;
+}
+
+/* ---------- 按钮 ---------- */
+.btn {
+  display: block;
+  font-size: 28rpx;
+  line-height: 1.4;
+  padding: 20rpx 28rpx;
+  border-radius: 14rpx;
+  background: #eef1f6;
+  color: #2b313b;
+  border: none;
+  margin: 0;
+  text-align: center;
+}
+
+.btn::after {
+  border: none;
+}
+
+.btn.primary {
+  background: #1a6dff;
+  color: #ffffff;
+}
+
+.btn.danger {
+  background: #fdecec;
+  color: #d93b3b;
+}
+
+.btn.ghost {
+  background: #ffffff;
+  color: #1a6dff;
+  border: 1rpx solid #cfe0ff;
+}
+
+.btn.block {
+  width: 100%;
+  margin-top: 20rpx;
+}
+
+/* 卡片头部小按钮（内容宽度自适应，供验收页长标签按钮复用） */
+.btn.sm {
+  display: inline-block;
+  font-size: 24rpx;
+  min-width: 176rpx;
+  min-height: 64rpx;
+  line-height: 42rpx;
+  padding: 10rpx 24rpx;
+  border-radius: 999rpx;
+  text-align: center;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+/* 配置页卡片操作按钮：固定尺寸统一规格。
+   宽度不随文案/loading 变化，也不会被 flex 行压缩——避免同一行两个按钮一大一小。 */
+.btn.sm.act {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 176rpx;
+  height: 64rpx;
+  min-width: 176rpx;
+  min-height: 64rpx;
+  padding: 0;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* 下拉选择框：与 input 同款外观 */
+.picker-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.picker-arrow {
+  color: #8a8f99;
+  font-size: 24rpx;
+  margin-left: 12rpx;
+}
+
+.btn.disabled,
+.btn[disabled] {
+  opacity: 0.45;
+}
+
+/* ---------- 键盘值展示 ---------- */
+.kv {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12rpx 0;
+  border-bottom: 1rpx solid #f4f6f9;
+}
+
+.kv:last-child {
+  border-bottom: none;
+}
+
+.kv .k {
+  color: #8a8f99;
+  font-size: 26rpx;
+  flex: 0 0 200rpx;
+}
+
+.kv .v {
+  color: #171a1f;
+  font-size: 26rpx;
+  text-align: right;
+  word-break: break-all;
+  flex: 1;
+}
+
+.mono {
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+}
+
+/* 状态行着色：不靠颜色也能读懂（值本身写了 true/false），颜色只做辅助 */
+.tone-ok {
+  color: #0a7040 !important;
+}
+
+.tone-warn {
+  color: #8a5312 !important;
+}
+
+.tone-err {
+  color: #a32222 !important;
+}
+
+/* 诊断原文：保留换行、可横向滚动 */
+.pre {
+  margin-top: 16rpx;
+  padding: 18rpx 20rpx;
+  background: #f7f8fa;
+  border-radius: 12rpx;
+  font-size: 22rpx;
+  line-height: 1.5;
+  color: #2b3038;
+  white-space: pre-wrap;
+  word-break: break-all;
+  max-height: 640rpx;
+  overflow-y: auto;
+}
+
+/* ---------- 空状态 ---------- */
+.empty {
+  text-align: center;
+  color: #a3a9b3;
+  font-size: 26rpx;
+  padding: 48rpx 0;
+  line-height: 1.6;
+}
+
+.warn-box {
+  background: #fdf3e4;
+  color: #8a5312;
+  font-size: 24rpx;
+  line-height: 1.6;
+  padding: 18rpx 20rpx;
+  border-radius: 12rpx;
+  margin-top: 16rpx;
+}
+
+.err-box {
+  background: #fdecec;
+  color: #a32222;
+  font-size: 24rpx;
+  line-height: 1.6;
+  padding: 18rpx 20rpx;
+  border-radius: 12rpx;
+  margin-top: 16rpx;
+}
+
+.ok-box {
+  background: #e8f7ee;
+  color: #0a7040;
+  font-size: 24rpx;
+  line-height: 1.6;
+  padding: 18rpx 20rpx;
+  border-radius: 12rpx;
+  margin-top: 16rpx;
+}
+
+/* 「正式配置 / 当前连接」两行：一眼看出设备连的是不是正式网络 */
+.conn-box {
+  margin-top: 16rpx;
+  padding: 18rpx 20rpx;
+  background: #f7f8fa;
+  border-radius: 12rpx;
+  border-left: 6rpx solid #c9ced6;
+}
+
+.conn-box.is-fallback {
+  background: #fdecec;
+  border-left-color: #d93025;
+}
+
+.conn-box.is-ok {
+  background: #e8f7ee;
+  border-left-color: #0a7040;
+}
+
+.conn-line {
+  font-size: 26rpx;
+  line-height: 1.7;
+  color: #1f2329;
+}
+
+.conn-line.sub {
+  color: #5c6470;
+}
+
+/* ---------- 输入 ---------- */
+/* input 是原生组件：必须给固定高度、垂直 padding 置 0，
+ * 否则 Android 上文字/占位符基线错位，出现重影。 */
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  background: #f7f8fa;
+  border-radius: 12rpx;
+  height: 92rpx;
+  line-height: 92rpx;
+  min-height: 92rpx;
+  padding: 0 24rpx;
+  font-size: 30rpx;
+  margin-top: 16rpx;
+  color: #171a1f;
+}
+
+.input-placeholder {
+  color: #9aa3ad;
+  font-size: 28rpx;
+}
+
+.textarea {
+  width: 100%;
+  box-sizing: border-box;
+  background: #f7f8fa;
+  border-radius: 12rpx;
+  padding: 22rpx 24rpx;
+  font-size: 26rpx;
+  height: 280rpx;
+  margin-top: 16rpx;
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  line-height: 1.6;
+}
+
+.link {
+  font-size: 24rpx;
+  color: #1a6dff;
+}
+
+/* ---------- 日志 ---------- */
+.log {
+  height: 360rpx;
+  background: #fafbfc;
+  border-radius: 12rpx;
+  padding: 16rpx;
+  margin-top: 16rpx;
+  box-sizing: border-box;
+}
+
+.log-line {
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 21rpx;
+  line-height: 1.7;
+  color: #4b5563;
+  word-break: break-all;
+}
+
+.log-line.tx {
+  color: #1a6dff;
+}
+
+.log-line.rx {
+  color: #0a8f4d;
+}
+
+.log-line.err {
+  color: #d93b3b;
+}
+
+.log-line.sys {
+  color: #8a8f99;
+}
+
+/* ---------- Wi-Fi 列表 ---------- */
+.ap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22rpx 0;
+  border-bottom: 1rpx solid #f4f6f9;
+}
+
+.ap.active {
+  background: #f3f7ff;
+  border-radius: 12rpx;
+  padding-left: 16rpx;
+  padding-right: 16rpx;
+}
+
+/* 超过 12s 没有新广播：整行变灰，避免把缓存设备当成在线 */
+.ap.stale {
+  opacity: 0.45;
+}
+
+.age {
+  font-size: 21rpx;
+  color: #a3a9b3;
+  margin-left: 12rpx;
+  flex: 0 0 auto;
+}
+
+.warn-text {
+  color: #b45309;
+}
+
+/* ---------- 验收页 ---------- */
+.summary {
+  display: flex;
+  margin-top: 20rpx;
+  background: #f7f8fa;
+  border-radius: 14rpx;
+  padding: 18rpx 0;
+}
+
+.sum-item {
+  flex: 1;
+  text-align: center;
+}
+
+.sum-num {
+  display: block;
+  font-size: 34rpx;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.sum-num.pass {
+  color: #0a8f4d;
+}
+
+.sum-num.warn {
+  color: #b45309;
+}
+
+.sum-num.expected {
+  color: #b45309;
+}
+
+.sum-num.fail {
+  color: #d93b3b;
+}
+
+.sum-num.skip {
+  color: #a3a9b3;
+}
+
+.sum-lb {
+  font-size: 22rpx;
+  color: #8a8f99;
+}
+
+.idx {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 50%;
+  background: #eef1f6;
+  color: #5b6371;
+  font-size: 24rpx;
+  text-align: center;
+  line-height: 44rpx;
+  margin-right: 16rpx;
+  flex: 0 0 44rpx;
+}
+
+.idx.ok {
+  background: #e8f7ee;
+  color: #0a8f4d;
+}
+
+.idx.err {
+  background: #fdecec;
+  color: #d93b3b;
+}
+
+.detail-box {
+  background: #f7f8fa;
+  color: #4b5563;
+  font-size: 23rpx;
+  line-height: 1.6;
+  padding: 16rpx 20rpx;
+  border-radius: 12rpx;
+  margin-top: 14rpx;
+  word-break: break-all;
+}
+
+.report {
+  background: #fafbfc;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-top: 16rpx;
+  font-size: 21rpx;
+  line-height: 1.7;
+  color: #4b5563;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.ap-name {
+  font-size: 28rpx;
+  color: #171a1f;
+  word-break: break-all;
+}
+
+/* 已连接设备名转绿（设备页列表） */
+.ap-name.on {
+  color: #0a8f4d;
+  font-weight: 600;
+}
+
+.ap-meta {
+  font-size: 22rpx;
+  color: #8a8f99;
+  margin-top: 4rpx;
+}
+
+.bars {
+  display: flex;
+  align-items: flex-end;
+  height: 26rpx;
+  margin-right: 12rpx;
+}
+
+.bars .b {
+  width: 6rpx;
+  margin-left: 4rpx;
+  background: #d7dbe3;
+  border-radius: 2rpx;
+}
+
+.bars .b.on {
+  background: #1a6dff;
+}
+
+/* ---------- 进度 ---------- */
+.phase {
+  display: flex;
+  align-items: center;
+  margin-top: 12rpx;
+}
+
+.dot {
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: #d7dbe3;
+  margin-right: 12rpx;
+  flex: 0 0 14rpx;
+}
+
+.dot.on {
+  background: #1a6dff;
+}
+
+.dot.ok {
+  background: #0a8f4d;
+}
+
+.dot.err {
+  background: #d93b3b;
+}

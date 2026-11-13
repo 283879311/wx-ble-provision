@@ -1,0 +1,65 @@
+<view class="page">
+
+  <!-- 未连接 -->
+  <view class="card" wx:if="{{!ready}}">
+    <view class="title">尚未连接设备</view>
+    <view class="hint">配置命令需要通过 BLE 发送，请先在「设备」页扫描并连接，完成管理员登录后再回来。</view>
+    <button class="btn primary block" bindtap="goDevice">去连接设备</button>
+  </view>
+
+  <!-- 未登录 -->
+  <view class="card" wx:elif="{{!loggedIn}}">
+    <view class="title">需要先登录</view>
+    <view class="hint">除 device.info 外，所有 v1 命令都需要 token。请回到「设备」页完成 auth.login。</view>
+    <button class="btn primary block" bindtap="goDevice">去登录</button>
+  </view>
+
+  <block wx:else>
+
+    <view class="card">
+      <view class="row between">
+        <view>
+          <view class="title">网络配置</view>
+          <view class="hint">Wi-Fi 扫描与配网 · 网络状态判读 · 网络诊断导出 · profile 清理</view>
+        </view>
+        <button class="btn sm act primary" bindtap="goNetcfg">进入</button>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="row between">
+        <view>
+          <view class="title">MQTT 配置</view>
+          <view class="hint">MQTT 服务器查询与配置（backend / host / port / TLS / token），子系统重连生效</view>
+        </view>
+        <button class="btn sm act primary" bindtap="goMqttcfg">进入</button>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="row between">
+        <view>
+          <view class="title">BLE 配置</view>
+          <view class="hint">BLE 角色 / 广播 / 连接状态与看门狗介入计数查询（当前固件只读）</view>
+        </view>
+        <button class="btn sm act primary" bindtap="goBlecfg">进入</button>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="row between">
+        <view>
+          <view class="title">UART 配置</view>
+          <view class="hint">串口引脚探测 · 波特率/数据位/停止位/校验读写 · 收发窗口（BLE DATA 通道）</view>
+        </view>
+        <button class="btn sm act primary" bindtap="goUartcfg">进入</button>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="hint">四个配置页相互独立；网络配网进行中时，其它配置页的写操作会暂缓（跨页互斥）。</view>
+    </view>
+
+  </block>
+
+</view>

@@ -1,0 +1,21 @@
+/* 验收中心：模块/选项分段切换（自 pages/t5 迁入，为全页统一规范） */
+.seg {
+  display: flex;
+  flex-direction: row;
+  background: #eef1f5;
+  border-radius: 12rpx;
+  padding: 6rpx;
+}
+
+.seg-item {
+  padding: 12rpx 24rpx;
+  font-size: 26rpx;
+  color: #5b6470;
+  border-radius: 10rpx;
+}
+
+.seg-item.on {
+  background: #ffffff;
+  color: #1a6dff;
+  font-weight: 600;
+}

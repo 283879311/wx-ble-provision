@@ -1,0 +1,276 @@
+<view class="page">
+
+  <!-- 未连接 -->
+  <view class="card" wx:if="{{!ready}}">
+    <view class="title">尚未连接设备</view>
+    <view class="hint">配网命令需要通过 BLE 发送，请先在「设备」页扫描并连接，完成管理员登录后再回来。</view>
+    <button class="btn primary block" bindtap="goDevice">去连接设备</button>
+  </view>
+
+  <!-- 未登录 -->
+  <view class="card" wx:elif="{{!loggedIn}}">
+    <view class="title">需要先登录</view>
+    <view class="hint">除 device.info 外，所有 v1 命令都需要 token。请回到「设备」页完成 auth.login。</view>
+    <button class="btn primary block" bindtap="goDevice">去登录</button>
+  </view>
+
+  <block wx:else>
+
+    <!-- 设备状态 -->
+    <view class="card">
+      <view class="row between">
+        <view class="title">设备状态</view>
+        <view class="row">
+          <text class="link" bindtap="onRefreshStatus">刷新</text>
+          <text class="link" style="margin-left: 24rpx;" bindtap="onConfigGet">配置</text>
+        </view>
+      </view>
+      <view class="hint" wx:if="{{lastSync}}">上次刷新 {{lastSync}}</view>
+
+      <view class="divider"></view>
+
+      <!-- 两行定调：正式配置是「应该连的」，当前连接是「实际连着的」 -->
+      <view
+        wx:if="{{verdict && (verdict.formalSsid || verdict.connectedSsid)}}"
+        class="conn-box {{verdict.kind === 'formal' ? 'is-ok' : (verdict.kind === 'offline' ? '' : 'is-fallback')}}"
+      >
+        <view class="conn-line">{{verdict.formalLine}}</view>
+        <view class="conn-line sub">{{verdict.connLine}}</view>
+      </view>
+
+      <view wx:if="{{cfgInfo && cfgInfo.fallback}}" class="cfg-warn">
+        <view class="cfg-warn-title">⚠ {{cfgInfo.warnText}}</view>
+        <view class="cfg-warn-hint">{{cfgInfo.hint}}</view>
+      </view>
+
+      <view wx:if="{{statusRows.length === 0}}" class="empty">点「刷新」读取 network.status</view>
+      <view class="kv" wx:for="{{statusRows}}" wx:key="k">
+        <text class="k">{{item.k}}</text>
+        <text class="v mono {{item.tone === 'err' ? 'tone-err' : (item.tone === 'warn' ? 'tone-warn' : (item.tone === 'ok' ? 'tone-ok' : ''))}}">{{item.v}}</text>
+      </view>
+
+      <view wx:if="{{residueWarn}}" class="warn-box">{{residueWarn}}</view>
+
+      <!-- 判读依据：IP + 运行态 SSID + MQTT，不用 sta_connected + 正式 sta_ssid -->
+      <view wx:if="{{verdict && verdict.kind === 'formal'}}" class="{{verdict.mqtt ? 'ok-box' : 'warn-box'}}">
+        在线且连的是正式网络「{{verdict.connectedSsid || verdict.formalSsid}}」：{{status.sta_ip}} ·
+        {{verdict.mqtt ? 'MQTT 已连接' : 'MQTT 未连接（有 IP 不等于已上线）'}}
+      </view>
+
+      <view wx:elif="{{verdict && verdict.kind === 'fallback'}}" class="err-box">
+        已连接其他已保存网络：设备连的是「{{verdict.connectedSsid}}」，不是正式配置的「{{verdict.formalSsid}}」。
+        sta_connected / sta_ssid 仍显示 true / 正式值，只有 connected_ssid 与 IP 段能看出这次切换。
+        这不是配网成功，请重新配网或清理回退 profile。
+      </view>
+
+      <view wx:elif="{{verdict && verdict.kind === 'unknown' && verdict.online}}" class="warn-box">
+        {{verdict.unknownWarn}}
+      </view>
+
+      <view wx:elif="{{verdict && verdict.kind === 'offline'}}" class="warn-box">
+        {{verdict.offlineWarn}}
+      </view>
+    </view>
+
+    <!-- 网络诊断：一键导出 runtime 证据 -->
+    <view class="card">
+      <view class="row between">
+        <view>
+          <view class="title">网络诊断</view>
+          <view class="hint">采集 network.status + config.get(network) + profile.list，原始 JSON 可直接粘贴</view>
+        </view>
+      </view>
+      <view class="row" style="margin-top: 12rpx;">
+        <button class="btn sm act primary" bindtap="onDiag" loading="{{diagging}}" disabled="{{diagging || running}}">
+          采集并复制
+        </button>
+        <button class="btn sm act ghost" style="margin-left: 12rpx;" bindtap="onProfiles" disabled="{{running}}">
+          profile 清理
+        </button>
+      </view>
+      <view wx:if="{{diagText}}" class="pre mono">{{diagText}}</view>
+      <view wx:if="{{diagText}}" class="row" style="margin-top: 10rpx;">
+        <text class="link" bindtap="onDiagCopy">复制诊断文本</text>
+      </view>
+    </view>
+
+    <!-- 静态 IP：v0 外壳写入（v1 config.set 拒绝 network 域）；BLE 不受 IP 影响，配错可随时改回 -->
+    <view class="card">
+      <view class="row between">
+        <view>
+          <view class="title">静态 IP</view>
+          <view class="hint">
+            {{staticCfg.loaded ? '当前设备配置：' + (staticCfg.enabled ? '静态 ' + staticCfg.ip : 'DHCP 自动获取') : '点「刷新」读取设备当前配置'}}
+            <text wx:if="{{status && status.sta_ip}}"> · 运行态 {{status.sta_ip}}</text>
+          </view>
+        </view>
+        <switch checked="{{staticCfg.enabled}}" bindchange="onStaticSwitch" disabled="{{staticCfg.saving || running}}"/>
+      </view>
+
+      <block wx:if="{{staticCfg.enabled}}">
+        <input class="input" placeholder-class="input-placeholder" placeholder="IP 地址（如 192.168.1.50）" value="{{staticCfg.ip}}" bindinput="onStaticInput" data-field="ip" disabled="{{staticCfg.saving}}"/>
+        <input class="input" placeholder-class="input-placeholder" placeholder="子网掩码（如 255.255.255.0）" value="{{staticCfg.netmask}}" bindinput="onStaticInput" data-field="netmask" disabled="{{staticCfg.saving}}"/>
+        <input class="input" placeholder-class="input-placeholder" placeholder="网关（如 192.168.1.1）" value="{{staticCfg.gateway}}" bindinput="onStaticInput" data-field="gateway" disabled="{{staticCfg.saving}}"/>
+        <input class="input" placeholder-class="input-placeholder" placeholder="DNS（可选，留空不下发）" value="{{staticCfg.dns}}" bindinput="onStaticInput" data-field="dns" disabled="{{staticCfg.saving}}"/>
+        <view class="hint">写入走 v0 外壳（v1 config.set 不开放 network 域）。DNS 键名以固件为准，若返回 invalid_argument 请清空重试。</view>
+      </block>
+
+      <view class="row" style="margin-top: 12rpx;">
+        <button class="btn sm act primary" bindtap="onSaveStatic" loading="{{staticCfg.saving}}" disabled="{{staticCfg.saving || running}}">
+          {{staticCfg.enabled ? '保存静态 IP' : '应用 DHCP'}}
+        </button>
+        <button class="btn sm act ghost" style="margin-left: 12rpx;" bindtap="onStaticReload" disabled="{{staticCfg.saving || running}}">回读设备配置</button>
+      </view>
+      <view wx:if="{{staticCfg.verify}}" class="{{staticCfg.verify[0] === '✘' ? 'err-box' : 'ok-box'}}" style="margin-top: 12rpx;">{{staticCfg.verify}}</view>
+    </view>
+
+    <!-- 进度 -->
+    <view class="card" wx:if="{{phase}}">
+      <view class="row">
+        <view class="dot {{phaseKind === 'ok' ? 'ok' : (phaseKind === 'err' ? 'err' : (phaseKind === 'warn' ? 'err' : 'on'))}}"></view>
+        <view class="title sm" style="margin: 0;">{{phase}}</view>
+      </view>
+      <view class="hint" wx:if="{{opState}}">operation 状态：{{opState}}</view>
+      <view class="err-box" wx:if="{{errText}}">
+        <view>{{errText}}</view>
+        <view wx:if="{{errHint}}" style="margin-top: 6rpx;">{{errHint}}</view>
+      </view>
+      <button wx:if="{{running}}" class="btn danger block" bindtap="onCancel">取消配网</button>
+    </view>
+
+    <!-- Wi-Fi 列表 -->
+    <view class="card">
+      <view class="row between">
+        <view>
+          <view class="title">选择 Wi-Fi</view>
+          <view class="hint">仅支持 2.4GHz；列表来自设备扫描</view>
+        </view>
+        <button
+          class="btn sm act primary"
+          bindtap="onScanWifi"
+          loading="{{scanning}}"
+          disabled="{{scanning || running}}"
+        >{{scanning ? '扫描中' : '扫描'}}</button>
+      </view>
+
+      <view wx:if="{{aps.length === 0}}" class="empty">
+        {{scanning ? '设备正在扫描周边 Wi-Fi…' : '还没有列表，点「扫描」开始'}}
+      </view>
+
+      <view
+        wx:for="{{aps}}"
+        wx:key="ssid"
+        class="ap {{selectedSsid === item.ssid ? 'active' : ''}}"
+        bindtap="onSelectAp"
+        data-index="{{index}}"
+      >
+        <view style="flex: 1; min-width: 0;">
+          <view class="ap-name">{{item.ssid}}</view>
+          <view class="ap-meta">
+            {{item.authText}}<text wx:if="{{item.count > 1}}"> · {{item.count}} 个 AP</text>
+            <text wx:if="{{item.saved}}" style="color: #1a7f4b;"> · 已保存</text>
+            <text wx:if="{{item.needsAttention}}" style="color: #b45309;"> · 需设备支持</text>
+          </view>
+        </view>
+        <view class="row" style="flex: 0 0 auto;">
+          <view class="bars">
+            <view
+              wx:for="{{[1,2,3,4]}}"
+              wx:for-item="bar"
+              wx:for-index="bi"
+              wx:key="*this"
+              class="b {{bi < item.bars ? 'on' : ''}}"
+              style="height: {{10 + bi * 4}}rpx"
+            ></view>
+          </view>
+          <view class="ap-meta">{{item.rssiText}}</view>
+        </view>
+        <view class="tag {{selectedSsid === item.ssid ? 'blue' : ''}}" style="margin-left: 16rpx;">
+          {{selectedSsid === item.ssid ? '已选' : '选择'}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 口令与发起 -->
+    <view class="card" wx:if="{{selectedSsid}}">
+      <view class="title">连接「{{selectedSsid}}」</view>
+      <view class="hint">
+        {{selectedOpen ? '开放网络，可留空' : 'WPA/WPA2 口令至少 8 位；口令只经 BLE 明文链路传输，不会写入日志或缓存'}}
+      </view>
+      <view class="hint" wx:if="{{passwordFilled}}">已自动填入之前配网成功的口令，可直接开始配网；点输入框可修改</view>
+      <view class="pw-row">
+        <input
+          class="input pw-input"
+          placeholder-class="input-placeholder"
+          placeholder="{{selectedOpen ? '开放网络，无需口令' : 'Wi-Fi 口令'}}"
+          password="{{!formPwVisible}}"
+          value="{{password}}"
+          bindinput="onPassword"
+          confirm-type="done"
+          bindconfirm="onStart"
+        />
+        <view class="pw-eye {{formPwVisible ? 'on' : ''}}" bindtap="onFormPwToggleEye" aria-label="切换口令可见"></view>
+      </view>
+      <button
+        class="btn primary block"
+        bindtap="onStart"
+        disabled="{{running}}"
+        loading="{{running}}"
+      >{{running ? '配网进行中' : '开始配网'}}</button>
+      <view class="hint">流程：tryconnect → operation.get（500ms 轮询）→ network.apply → 等 sta_has_ip / MQTT</view>
+    </view>
+
+    <!-- 日志 -->
+    <view class="card">
+      <view class="row between">
+        <view class="title">流程日志</view>
+        <view style="display:flex;"><view class="link" bindtap="onCopyLog" style="margin-right:24rpx;">复制</view><view class="link" bindtap="onClearLog">清空</view></view>
+      </view>
+      <scroll-view class="log" scroll-y scroll-into-view="{{scrollTo}}" scroll-with-animation>
+        <view wx:for="{{logs}}" wx:key="id" class="log-line {{item.kind}}">{{item.t}}  {{item.text}}</view>
+        <view wx:if="{{logs.length === 0}}" class="hint">暂无日志</view>
+        <view id="log-bottom" style="height: 4rpx;"></view>
+      </scroll-view>
+    </view>
+
+    <!-- SSID 口令弹窗：点扫描列表项即弹出 -->
+    <view class="pw-mask" wx:if="{{pwModal.show}}" bindtap="onPwModalCancel">
+      <view class="pw-modal" catchtap="onPwModalStop">
+        <view class="title">连接「{{pwModal.ssid}}」</view>
+        <view class="hint" wx:if="{{pwModal.open}}">开放网络，无需口令，直接开始配网</view>
+        <block wx:else>
+          <view class="hint">WPA/WPA2 口令至少 8 位；口令只经 BLE 明文链路传输，不会写入日志或缓存</view>
+          <view class="pw-row">
+            <input
+              class="input pw-input"
+              placeholder-class="input-placeholder"
+              placeholder="Wi-Fi 口令"
+              password="{{!pwModal.visible}}"
+              focus="{{pwModal.focus}}"
+              value="{{pwModal.password}}"
+              bindinput="onPwModalInput"
+              confirm-type="done"
+              bindconfirm="onPwModalConfirm"
+            />
+            <view class="pw-eye {{pwModal.visible ? 'on' : ''}}" bindtap="onPwModalToggleEye" aria-label="切换口令可见"></view>
+          </view>
+          <view class="hint" wx:if="{{pwModal.remembered}}">已自动填入之前配网成功的口令，可直接确认；修改输入即作废记忆</view>
+          <view class="hint" wx:if="{{pwModal.savedNoPw}}">设备已保存该 Wi-Fi，但本机没有口令记忆（口令在设备侧不可读，无法自动取回），请手动输入；配网成功后本机会记住</view>
+          <view wx:if="{{pwModal.err}}" class="err-box" style="margin-top: 12rpx;">{{pwModal.err}}</view>
+        </block>
+        <view class="row" style="margin-top: 24rpx;">
+          <button class="btn ghost" style="flex: 1;" bindtap="onPwModalCancel" disabled="{{running}}">取消</button>
+          <button
+            class="btn primary"
+            style="flex: 1; margin-left: 16rpx;"
+            loading="{{running}}"
+            disabled="{{running}}"
+            bindtap="onPwModalConfirm"
+          >{{pwModal.open ? '直接配网' : '开始配网'}}</button>
+        </view>
+      </view>
+    </view>
+
+  </block>
+
+</view>

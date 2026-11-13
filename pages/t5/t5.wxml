@@ -1,0 +1,171 @@
+<view class="page">
+
+  <!-- 链路状态 -->
+  <view class="card">
+    <view class="row between">
+      <view style="flex: 1; min-width: 0;">
+        <view class="title">T5 · 长稳韧性</view>
+        <view class="hint">{{ready ? ((deviceName || '设备') + ' · 会话 #' + sessionId) : '断开状态'}} · 写分片 20B 固定</view>
+      </view>
+      <view class="tag {{loggedIn ? 'ok' : (ready ? 'warn' : 'blue')}}">
+        {{loggedIn ? '已登录' : (ready ? '未登录' : '未连接')}}
+      </view>
+    </view>
+
+    <view wx:if="{{linkText}}" class="hint" style="margin-top: 10rpx;">{{linkText}}</view>
+
+    <view class="row" style="margin-top: 16rpx;">
+      <button
+        class="btn sm ghost"
+        bindtap="onAutoLink"
+        loading="{{linking}}"
+        disabled="{{busy}}"
+      >{{ready ? '重连登录' : '仅连接并登录'}}</button>
+      <button
+        wx:if="{{!ready}}"
+        class="btn sm ghost"
+        style="margin-left: 12rpx;"
+        bindtap="onResetAdapter"
+        loading="{{linking}}"
+        disabled="{{busy}}"
+      >重启蓝牙恢复广播</button>
+      <button class="btn sm ghost" style="margin-left: 12rpx;" bindtap="goBack" disabled="{{busy}}">返回</button>
+    </view>
+  </view>
+
+  <!-- M1 终态槽取证 -->
+  <view class="card">
+    <view class="row between">
+      <view style="flex: 1; min-width: 0;">
+        <view class="title sm">M1 · 终态槽回收取证</view>
+        <view class="hint">占满槽 → 断言受理或 no_slot → 查旧 operation 是否 not_found</view>
+      </view>
+    </view>
+    <view class="row" style="margin-top: 12rpx;">
+      <button class="btn sm ghost act" bindtap="onSlotProbe" loading="{{probing}}" disabled="{{busy}}">执行取证</button>
+      <button wx:if="{{probeText}}" class="btn sm ghost act" style="margin-left: 12rpx;" bindtap="onCopyProbe">复制</button>
+    </view>
+    <view wx:if="{{probeText}}" class="pre mono" style="margin-top: 12rpx;">{{probeText}}</view>
+  </view>
+
+  <!-- 测试配置 -->
+  <view class="card">
+    <view class="title sm">测试配置</view>
+
+    <view class="hint" style="margin-top: 12rpx;">轮数</view>
+    <view class="seg" style="margin-top: 8rpx;">
+      <view
+        wx:for="{{roundChoices}}"
+        wx:key="*this"
+        class="seg-item {{rounds === item ? 'on' : ''}}"
+        bindtap="onPickRounds"
+        data-v="{{item}}"
+      >{{item}} 轮</view>
+    </view>
+
+    <view class="hint" style="margin-top: 12rpx;">场景</view>
+    <view class="seg" style="margin-top: 8rpx;">
+      <view
+        wx:for="{{setChoices}}"
+        wx:key="v"
+        class="seg-item {{set === item.v ? 'on' : ''}}"
+        bindtap="onPickSet"
+        data-v="{{item.v}}"
+      >{{item.label}}</view>
+    </view>
+
+    <view class="hint" style="margin-top: 12rpx;">节奏</view>
+    <view class="seg" style="margin-top: 8rpx;">
+      <view
+        wx:for="{{pacingChoices}}"
+        wx:key="*this"
+        class="seg-item {{pacing === item ? 'on' : ''}}"
+        bindtap="onPickPacing"
+        data-v="{{item}}"
+      >{{item === 'serial' ? '串行（冷却 1s）' : '紧凑（250ms）'}}</view>
+    </view>
+
+    <view class="hint" style="margin-top: 16rpx;">目标 SSID（apply 轮用）</view>
+    <input
+      class="input"
+      value="{{targetSsid}}"
+      bindinput="onTargetSsid"
+      placeholder="当前正式 SSID"
+      disabled="{{t5Running}}"
+    />
+
+    <view class="hint" style="margin-top: 12rpx;">目标口令（≥8 位）</view>
+    <input
+      class="input"
+      value="{{targetPassword}}"
+      bindinput="onTargetPassword"
+      password="{{true}}"
+      placeholder="至少 8 位"
+      disabled="{{t5Running}}"
+    />
+
+    <view class="hint" style="margin-top: 12rpx;">错误口令（B 轮用）</view>
+    <input
+      class="input"
+      value="{{wrongPassword}}"
+      bindinput="onWrongPassword"
+      placeholder="wrong-pass-t5"
+      disabled="{{t5Running}}"
+    />
+
+    <view class="row" style="margin-top: 16rpx;">
+      <button
+        wx:if="{{!t5Running}}"
+        class="btn primary block"
+        bindtap="onT5Start"
+        disabled="{{busy}}"
+      >开始长稳测试</button>
+      <button
+        wx:else
+        class="btn danger block"
+        bindtap="onT5Abort"
+      >中止（不再发起新轮，并清理当前操作）</button>
+    </view>
+  </view>
+
+  <!-- 进度与逐轮 -->
+  <view class="card" wx:if="{{t5Running || records.length > 0}}">
+    <view class="row between">
+      <view class="title sm">进度</view>
+      <view class="tag {{t5Summary.fail ? 'err' : (t5Summary.pass ? 'ok' : 'blue')}}">
+        {{t5Summary.pass}}P · {{t5Summary.expected}}E · {{t5Summary.fail}}F
+      </view>
+    </view>
+    <view wx:if="{{progressText}}" class="hint" style="margin-top: 8rpx;">{{progressText}}</view>
+
+    <scroll-view scroll-y scroll-into-view="{{scrollTo}}" style="max-height: 520rpx; margin-top: 12rpx;">
+      <view wx:if="{{records.length === 0}}" class="hint">尚未开始</view>
+      <view
+        wx:for="{{records}}"
+        wx:key="n"
+        style="padding: 10rpx 0; border-bottom: 1px solid #eef1f5;"
+      >
+        <view class="row between">
+          <view class="hint">#{{item.n}} · {{item.scenarioShort}}</view>
+          <view class="row">
+            <text wx:if="{{item.ms}}" class="hint" style="margin-right: 8rpx;">{{item.ms}}ms</text>
+            <text
+              class="tag {{item.outcomeUpper === 'PASS' ? 'ok' : (item.outcomeUpper === 'EXPECTED' ? 'warn' : 'err')}}"
+            >{{item.outcomeUpper}}</text>
+          </view>
+        </view>
+        <view wx:if="{{item.err}}" class="hint">{{item.err}}</view>
+      </view>
+      <view id="t5-bottom" style="height: 1px;"></view>
+    </scroll-view>
+
+    <view wx:if="{{summaryText}}" class="ok-box mono" style="margin-top: 12rpx; white-space: pre-wrap;">{{summaryText}}</view>
+  </view>
+
+  <!-- T5 报告（结束后已自动复制到剪贴板） -->
+  <view class="card" wx:if="{{reportText}}">
+    <view class="title sm">T5 报告（已复制到剪贴板）</view>
+    <view class="pre mono" style="margin-top: 12rpx;">{{reportText}}</view>
+  </view>
+
+</view>

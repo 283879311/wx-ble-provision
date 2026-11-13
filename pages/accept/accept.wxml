@@ -1,0 +1,66 @@
+<view class="page">
+
+  <!-- 链路状态 -->
+  <view class="card">
+    <view class="row between">
+      <view style="flex: 1; min-width: 0;">
+        <view class="title">验收中心</view>
+        <view class="hint">{{ready ? ((deviceName || '设备') + ' · 会话 #' + sessionId) : '断开状态'}} · 写分片 20B 固定</view>
+      </view>
+      <view class="tag {{loggedIn ? 'ok' : (ready ? 'warn' : 'blue')}}">
+        {{loggedIn ? '已登录' : (ready ? '未登录' : '未连接')}}
+      </view>
+    </view>
+
+    <view wx:if="{{linkText}}" class="hint" style="margin-top: 10rpx;">{{linkText}}</view>
+
+    <view class="row" style="margin-top: 16rpx;">
+      <button
+        class="btn sm ghost"
+        bindtap="onAutoLink"
+        loading="{{linking}}"
+        disabled="{{busy}}"
+      >{{ready ? '重连登录' : '仅连接并登录'}}</button>
+      <button
+        wx:if="{{!ready}}"
+        class="btn sm ghost"
+        style="margin-left: 12rpx;"
+        bindtap="onResetAdapter"
+        loading="{{linking}}"
+        disabled="{{busy}}"
+      >重启蓝牙恢复广播</button>
+      <button class="btn sm ghost" style="margin-left: 12rpx;" bindtap="goDevice" disabled="{{busy}}">设备页</button>
+      <button class="btn sm ghost" style="margin-left: 12rpx;" bindtap="goProvision" disabled="{{busy}}">配置中心</button>
+    </view>
+  </view>
+
+  <!-- 四个模块入口 -->
+  <view
+    class="card"
+    wx:for="{{cards}}"
+    wx:key="key"
+    bindtap="goPage"
+    data-path="{{item.path}}"
+  >
+    <view class="row between">
+      <view style="flex: 1; min-width: 0;">
+        <view class="title">{{item.title}}</view>
+        <view class="hint">{{item.desc}}</view>
+      </view>
+      <view
+        class="tag {{summaries[item.key].kind === 'ok' ? 'ok' : (summaries[item.key].kind === 'fail' ? 'err' : (summaries[item.key].kind === 'warn' ? 'warn' : 'blue'))}}"
+      >{{summaries[item.key].text}}</view>
+    </view>
+    <view wx:if="{{item.key === 'stress' && stressRunning}}" class="hint" style="margin-top: 8rpx; color: #8a5312;">
+      压测进行中：进入页面可查看实时进度（切页不会中断）
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="hint">摘要只保留计数，完整报告在各子页点「复制」导出。压测报告含分层字节账，请按版本/配置归档。</view>
+    <view class="row" style="margin-top: 12rpx;">
+      <button class="btn sm ghost" bindtap="onClearSummaries" disabled="{{busy}}">清除摘要</button>
+    </view>
+  </view>
+
+</view>

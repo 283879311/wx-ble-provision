@@ -1,0 +1,110 @@
+<view class="page">
+
+  <!-- 链路状态 -->
+  <view class="card">
+    <view class="row between">
+      <view style="flex: 1; min-width: 0;">
+        <view class="title">T3 · 人工测试</view>
+        <view class="hint">{{ready ? ((deviceName || '设备') + ' · 会话 #' + sessionId) : '断开状态'}}</view>
+      </view>
+      <view class="tag {{loggedIn ? 'ok' : (ready ? 'warn' : 'blue')}}">
+        {{loggedIn ? '已登录' : (ready ? '未登录' : '未连接')}}
+      </view>
+    </view>
+    <view class="row" style="margin-top: 16rpx;">
+      <button class="btn sm ghost" bindtap="onAutoLink" loading="{{linking}}" disabled="{{busy}}">{{ready ? '重连登录' : '仅连接并登录'}}</button>
+      <button wx:if="{{!ready}}" class="btn sm ghost" style="margin-left: 12rpx;" bindtap="onResetAdapter" loading="{{linking}}" disabled="{{busy}}">重启蓝牙恢复广播</button>
+      <button class="btn sm ghost" style="margin-left: 12rpx;" bindtap="onReconnect" loading="{{reconnecting}}" disabled="{{busy || reconnecting}}">断连重连</button>
+      <button class="btn sm ghost" style="margin-left: 12rpx;" bindtap="goDevice" disabled="{{busy}}">设备页</button>
+    </view>
+  </view>
+
+  <!-- 边界说明 -->
+  <view class="card">
+    <view class="hint">本页收纳功能自测中无法自动完成的部分：页面级人工走查（host mock 断言的真机等价）、需要真实环境的操作核对，以及自 T4 迁入的 8 张人工配合卡（必须人工配合真实 Wi-Fi / 上游 AP / 口令 / 对应平台手机 / 第二台设备）。设备侧行为取证以 T4/T5/压测为准，两者互不替代；摘要（PASS/FAIL 计数）入验收账本。</view>
+  </view>
+
+  <!-- 人工配合卡（自 T4 迁入） -->
+  <view class="card" wx:for="{{manuals}}" wx:key="id" wx:for-index="midx" wx:for-item="m">
+    <view class="row between">
+      <view class="title sm" style="flex: 1; min-width: 0;">{{m.name}}</view>
+      <view class="tag {{m.state === 'pass' ? 'ok' : (m.state === 'fail' || m.state === 'blocked' ? 'err' : (m.state === 'expected' || m.state === 'incomplete' ? 'warn' : 'blue'))}}">{{m.statusText}}</view>
+    </view>
+    <view class="hint" style="margin-top: 8rpx;">{{m.desc}}</view>
+    <view class="hint">{{m.manualHint}}</view>
+    <view wx:if="{{m.blockedBy}}" class="hint" style="margin-top: 8rpx; color: #8a5312;">解除条件：{{m.blockedBy}}（满足后请重跑本卡，不要一直留在 BLOCKED）</view>
+    <view wx:if="{{m.detail}}" class="hint mono" style="margin-top: 8rpx; white-space: pre-wrap;">{{m.detail}}</view>
+
+    <view wx:if="{{m.id === 'apply'}}" class="row" style="margin-top: 10rpx;">
+      <button class="btn sm ghost act" bindtap="onVerifyApply" data-index="{{midx}}" disabled="{{busy}}">验证当前配网结果</button>
+    </view>
+
+    <view wx:if="{{m.id === 'rescue'}}" class="row" style="margin-top: 10rpx;">
+      <button class="btn sm ghost act" bindtap="onRescueCapture" data-index="{{midx}}" disabled="{{busy}}">捕获故障</button>
+      <button class="btn sm ghost act" style="margin-left: 12rpx;" bindtap="onRescueVerify" data-index="{{midx}}" disabled="{{busy}}">验证救援</button>
+      <button class="btn sm ghost act" style="margin-left: 12rpx;" bindtap="onRescueCleanup" data-index="{{midx}}" disabled="{{busy}}">清理</button>
+    </view>
+    <view wx:if="{{m.id === 'rescue' && rescueHint}}" class="hint" style="margin-top: 8rpx; color: #8a5312;">{{rescueHint}}</view>
+
+    <view wx:if="{{m.id === 'mtu'}}" class="row" style="margin-top: 10rpx;">
+      <button class="btn sm ghost act" bindtap="onMtuRecord" data-index="{{midx}}" disabled="{{busy}}">记录权限/MTU</button>
+    </view>
+
+    <view wx:if="{{m.id === 'pwdchange'}}" class="row" style="margin-top: 10rpx;">
+      <button class="btn sm ghost act" bindtap="onPwdChangeCard" data-index="{{midx}}" disabled="{{busy}}">受控改密卡</button>
+    </view>
+
+    <view wx:if="{{m.id === 'bothos-ios' || m.id === 'bothos-android'}}" class="row" style="margin-top: 10rpx;">
+      <button class="btn sm ghost act" bindtap="onBothosRecord" data-index="{{midx}}" disabled="{{busy}}">记录本机证据</button>
+    </view>
+    <view wx:if="{{m.id === 'concurrent401'}}" class="row" style="margin-top: 10rpx;">
+      <button class="btn sm primary act" bindtap="onProbe401" data-index="{{midx}}" disabled="{{busy}}">跑 #23 时序实验</button>
+      <button class="btn sm ghost act" style="margin-left: 12rpx;" bindtap="onCardMark" data-index="{{midx}}" disabled="{{busy}}">记录走查结果</button>
+    </view>
+    <view wx:if="{{m.id === 'cross-device'}}" class="row" style="margin-top: 10rpx;">
+      <button class="btn sm ghost act" bindtap="onCardMark" data-index="{{midx}}" disabled="{{busy}}">记录走查结果</button>
+    </view>
+  </view>
+
+  <!-- 人工项 -->
+  <view class="card" wx:for="{{items}}" wx:key="id" wx:for-index="idx" wx:for-item="item">
+    <view class="row between">
+      <view class="title sm" style="flex: 1; min-width: 0;">{{item.name}}</view>
+      <view class="tag {{item.status === 'PASS' ? 'ok' : (item.status === 'FAIL' ? 'err' : (item.status === 'N/A' ? 'blue' : 'warn'))}}">{{item.status}}</view>
+    </view>
+    <view class="hint" style="margin-top: 8rpx;">来源: {{item.from}}</view>
+    <view class="hint">步骤: {{item.steps}}</view>
+    <view class="hint">预期: {{item.expect}}</view>
+    <view class="row" style="margin-top: 12rpx;">
+      <button
+        wx:for="{{statusOptions}}"
+        wx:for-item="s"
+        wx:for-index="si"
+        wx:key="*this"
+        class="btn sm {{item.status === s ? (s === 'PASS' ? 'primary' : (s === 'FAIL' ? 'warn' : 'ghost')) : 'ghost'}}"
+        style="margin-right: 12rpx;"
+        bindtap="onStatusTap"
+        data-idx="{{idx}}"
+        data-s="{{s}}"
+      >{{s}}</button>
+    </view>
+    <input
+      class="input"
+      placeholder-class="input-placeholder"
+      placeholder="备注（现象 / 证据位置，可选）"
+      value="{{item.note}}"
+      bindinput="onNoteInput"
+      data-idx="{{idx}}"
+    />
+  </view>
+
+  <!-- 报告 -->
+  <view class="card">
+    <view class="row" style="margin-top: 4rpx;">
+      <button class="btn sm primary" bindtap="onCopyReport">复制报告</button>
+      <button class="btn sm ghost" style="margin-left: 12rpx;" bindtap="onReset">重置本页</button>
+    </view>
+    <view class="hint" style="margin-top: 10rpx;">复制时同步把 PASS/FAIL 计数写入验收中心摘要。</view>
+  </view>
+
+</view>

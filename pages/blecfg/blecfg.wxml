@@ -1,0 +1,49 @@
+<view class="page">
+
+  <!-- 未连接 -->
+  <view class="card" wx:if="{{!ready}}">
+    <view class="title">尚未连接设备</view>
+    <view class="hint">BLE 状态查询需要通过 BLE 发送，请先在「设备」页扫描并连接，完成管理员登录后再回来。</view>
+    <button class="btn primary block" bindtap="goDevice">去连接设备</button>
+  </view>
+
+  <!-- 未登录 -->
+  <view class="card" wx:elif="{{!loggedIn}}">
+    <view class="title">需要先登录</view>
+    <view class="hint">除 device.info 外，所有 v1 命令都需要 token。请回到「设备」页完成 auth.login。</view>
+    <button class="btn primary block" bindtap="goDevice">去登录</button>
+  </view>
+
+  <block wx:else>
+
+    <view class="card">
+      <view class="row between">
+        <view>
+          <view class="title">BLE 状态</view>
+          <view class="hint">查询 config.get(bluetooth)：角色 / 广播 / 连接 / 看门狗介入计数</view>
+        </view>
+        <button class="btn sm act primary" bindtap="onBtQuery" loading="{{querying}}"
+          disabled="{{querying}}">{{querying ? '查询中' : '查询'}}</button>
+      </view>
+      <view class="hint" wx:if="{{lastSync}}">上次查询 {{lastSync}}</view>
+
+      <view class="divider"></view>
+
+      <view class="kv" wx:for="{{btRows}}" wx:key="k">
+        <text class="k">{{item.k}}</text>
+        <text class="v mono {{item.tone === 'err' ? 'tone-err' : (item.tone === 'warn' ? 'tone-warn' : (item.tone === 'ok' ? 'tone-ok' : ''))}}">{{item.v}}</text>
+      </view>
+      <view wx:if="{{btRows.length === 0 && !querying}}" class="empty">点「查询」读取设备 BLE 状态</view>
+
+      <view wx:if="{{btVerdict}}" class="{{btVerdict.kind === 'ok' ? 'ok-box' : (btVerdict.kind === 'err' ? 'err-box' : 'warn-box')}}">
+        {{btVerdict.text}}
+      </view>
+
+      <view class="divider"></view>
+      <view class="hint">{{btNote}}</view>
+      <view class="hint">判读口径：adv_retry_count &gt; 0 = 广播看门狗曾介入并恢复（偶发属预期）；持续增长才按广播稳定性排查；adv_retry_count = 0 是即时值，不代表从未介入。</view>
+    </view>
+
+  </block>
+
+</view>

@@ -1,0 +1,973 @@
+I (199574349) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=33212 total_published=20194
+I (199575549) diag: core idle: core0=73% core1=96%
+I (199575549) diag: heap free=31096 min=10340 largest=23552 level=normal | wifi mode=1 ch=8/0 adv=0 conn=1 cf=0 rx_age=101316 role=ble mqtt_outbox=0 mqtt_shed=0 pipe_yield=0
+I (199584389) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=38616 total_published=20195
+I (199594389) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=49204 total_published=20196
+I (199604359) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=17263 total_published=20197
+I (199605549) diag: core idle: core0=73% core1=96%
+I (199605549) diag: heap free=31096 min=10340 largest=23552 level=normal | wifi mode=1 ch=8/0 adv=0 conn=1 cf=0 rx_age=131316 role=ble mqtt_outbox=0 mqtt_shed=0 pipe_yield=0
+I (199614389) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=46458 total_published=20198
+I (199624319) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=65050 total_published=20199
+I (199634359) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=40994 total_published=20200
+I (199635549) diag: core idle: core0=73% core1=96%
+I (199635549) diag: heap free=31096 min=10340 largest=23552 level=normal | wifi mode=1 ch=8/0 adv=0 conn=1 cf=0 rx_age=161316 role=ble mqtt_outbox=0 mqtt_shed=0 pipe_yield=0
+I (199638599) bt_gatts: cmd RX write: 20 byte(s) last=0x22 newline=0
+I (199638629) bt_gatts: cmd RX write: 20 byte(s) last=0x67 newline=0
+I (199638659) bt_gatts: cmd RX write: 20 byte(s) last=0x6B newline=0
+I (199638689) bt_gatts: cmd RX write: 20 byte(s) last=0x30 newline=0
+I (199638749) bt_gatts: cmd RX write: 20 byte(s) last=0x0A newline=1
+I (199638749) ble_cmd: cmd line queued (99 bytes)
+I (199638759) ble_cmd: rx v1 cmd=config.get id=39
+I (199638769) NimBLE: GATT procedure initiated: notify; 
+I (199638769) NimBLE: att_handle=10
+
+I (199638789) NimBLE: GATT procedure initiated: notify; 
+I (199638789) NimBLE: att_handle=10
+
+I (199638809) NimBLE: GATT procedure initiated: notify; 
+I (199638809) NimBLE: att_handle=10
+
+I (199638829) NimBLE: GATT procedure initiated: notify; 
+I (199638829) NimBLE: att_handle=10
+
+I (199638849) NimBLE: GATT procedure initiated: notify; 
+I (199638849) NimBLE: att_handle=10
+
+I (199638869) NimBLE: GATT procedure initiated: notify; 
+I (199638869) NimBLE: att_handle=10
+
+I (199638889) NimBLE: GATT procedure initiated: notify; 
+I (199638889) NimBLE: att_handle=10
+
+I (199638909) NimBLE: GATT procedure initiated: notify; 
+I (199638909) NimBLE: att_handle=10
+
+I (199638929) NimBLE: GATT procedure initiated: notify; 
+I (199638929) NimBLE: att_handle=10
+
+I (199638949) NimBLE: GATT procedure initiated: notify; 
+I (199638949) NimBLE: att_handle=10
+
+I (199638969) NimBLE: GATT procedure initiated: notify; 
+I (199638969) NimBLE: att_handle=10
+
+I (199638989) NimBLE: GATT procedure initiated: notify; 
+I (199638989) NimBLE: att_handle=10
+
+I (199639009) NimBLE: GATT procedure initiated: notify; 
+I (199639009) NimBLE: att_handle=10
+
+I (199639029) NimBLE: GATT procedure initiated: notify; 
+I (199639029) NimBLE: att_handle=10
+
+I (199639049) NimBLE: GATT procedure initiated: notify; 
+I (199639049) NimBLE: att_handle=10
+
+I (199639069) NimBLE: GATT procedure initiated: notify; 
+I (199639069) NimBLE: att_handle=10
+
+I (199639089) NimBLE: GATT procedure initiated: notify; 
+I (199639089) NimBLE: att_handle=10
+
+I (199639109) NimBLE: GATT procedure initiated: notify; 
+I (199639109) NimBLE: att_handle=10
+
+I (199639129) NimBLE: GATT procedure initiated: notify; 
+I (199639129) NimBLE: att_handle=10
+
+I (199639149) NimBLE: GATT procedure initiated: notify; 
+I (199639149) NimBLE: att_handle=10
+
+I (199639169) NimBLE: GATT procedure initiated: notify; 
+I (199639169) NimBLE: att_handle=10
+
+I (199639189) NimBLE: GATT procedure initiated: notify; 
+I (199639189) NimBLE: att_handle=10
+
+I (199639209) NimBLE: GATT procedure initiated: notify; 
+I (199639209) NimBLE: att_handle=10
+
+I (199639229) NimBLE: GATT procedure initiated: notify; 
+I (199639229) NimBLE: att_handle=10
+
+I (199639249) NimBLE: GATT procedure initiated: notify; 
+I (199639249) NimBLE: att_handle=10
+
+I (199639269) NimBLE: GATT procedure initiated: notify; 
+I (199639269) NimBLE: att_handle=10
+
+I (199639289) NimBLE: GATT procedure initiated: notify; 
+I (199639289) NimBLE: att_handle=10
+
+I (199639309) NimBLE: GATT procedure initiated: notify; 
+I (199639309) NimBLE: att_handle=10
+
+I (199639329) NimBLE: GATT procedure initiated: notify; 
+I (199639329) NimBLE: att_handle=10
+
+I (199639349) NimBLE: GATT procedure initiated: notify; 
+I (199639349) NimBLE: att_handle=10
+
+I (199639369) NimBLE: GATT procedure initiated: notify; 
+I (199639369) NimBLE: att_handle=10
+
+I (199639389) NimBLE: GATT procedure initiated: notify; 
+I (199639389) NimBLE: att_handle=10
+
+I (199639409) NimBLE: GATT procedure initiated: notify; 
+I (199639409) NimBLE: att_handle=10
+
+I (199639429) NimBLE: GATT procedure initiated: notify; 
+I (199639429) NimBLE: att_handle=10
+
+I (199639449) NimBLE: GATT procedure initiated: notify; 
+I (199639449) NimBLE: att_handle=10
+
+I (199639469) NimBLE: GATT procedure initiated: notify; 
+I (199639469) NimBLE: att_handle=10
+
+I (199639489) NimBLE: GATT procedure initiated: notify; 
+I (199639489) NimBLE: att_handle=10
+
+I (199639509) NimBLE: GATT procedure initiated: notify; 
+I (199639509) NimBLE: att_handle=10
+
+I (199639529) NimBLE: GATT procedure initiated: notify; 
+I (199639529) NimBLE: att_handle=10
+
+I (199639549) NimBLE: GATT procedure initiated: notify; 
+I (199639549) NimBLE: att_handle=10
+
+I (199639569) NimBLE: GATT procedure initiated: notify; 
+I (199639569) NimBLE: att_handle=10
+
+I (199639589) NimBLE: GATT procedure initiated: notify; 
+I (199639589) NimBLE: att_handle=10
+
+I (199639609) NimBLE: GATT procedure initiated: notify; 
+I (199639609) NimBLE: att_handle=10
+
+I (199639629) NimBLE: GATT procedure initiated: notify; 
+I (199639629) NimBLE: att_handle=10
+
+I (199639649) NimBLE: GATT procedure initiated: notify; 
+I (199639649) NimBLE: att_handle=10
+
+I (199639669) NimBLE: GATT procedure initiated: notify; 
+I (199639669) NimBLE: att_handle=10
+
+I (199639689) NimBLE: GATT procedure initiated: notify; 
+I (199639689) NimBLE: att_handle=10
+
+I (199639709) NimBLE: GATT procedure initiated: notify; 
+I (199639709) NimBLE: att_handle=10
+
+I (199639729) NimBLE: GATT procedure initiated: notify; 
+I (199639729) NimBLE: att_handle=10
+
+I (199639749) NimBLE: GATT procedure initiated: notify; 
+I (199639749) NimBLE: att_handle=10
+
+I (199639769) NimBLE: GATT procedure initiated: notify; 
+I (199639769) NimBLE: att_handle=10
+
+I (199639789) NimBLE: GATT procedure initiated: notify; 
+I (199639789) NimBLE: att_handle=10
+
+I (199639809) NimBLE: GATT procedure initiated: notify; 
+I (199639809) NimBLE: att_handle=10
+
+I (199639829) NimBLE: GATT procedure initiated: notify; 
+I (199639829) NimBLE: att_handle=10
+
+I (199639849) NimBLE: GATT procedure initiated: notify; 
+I (199639849) NimBLE: att_handle=10
+
+I (199639869) NimBLE: GATT procedure initiated: notify; 
+I (199639869) NimBLE: att_handle=10
+
+I (199639919) bt_gatts: cmd RX write: 20 byte(s) last=0x22 newline=0
+I (199639949) bt_gatts: cmd RX write: 20 byte(s) last=0x72 newline=0
+I (199639979) bt_gatts: cmd RX write: 20 byte(s) last=0x22 newline=0
+I (199640009) bt_gatts: cmd RX write: 20 byte(s) last=0x66 newline=0
+I (199640039) bt_gatts: cmd RX write: 20 byte(s) last=0x73 newline=0
+I (199640069) bt_gatts: cmd RX write: 20 byte(s) last=0x61 newline=0
+I (199640099) bt_gatts: cmd RX write: 20 byte(s) last=0x6E newline=0
+I (199640129) bt_gatts: cmd RX write: 20 byte(s) last=0x2D newline=0
+I (199640189) bt_gatts: cmd RX write: 20 byte(s) last=0x6B newline=0
+I (199640219) bt_gatts: cmd RX write: 20 byte(s) last=0x30 newline=0
+I (199640249) bt_gatts: cmd RX write: 20 byte(s) last=0x0A newline=1
+I (199640249) ble_cmd: cmd line queued (219 bytes)
+I (199640249) ble_cmd: rx v1 cmd=network.tryconnect id=40
+I (199640259) mqtt: restart deferred (max 15000ms)
+I (199640259) operation: accepted op-57378723A0693C10 owner=1 ttl=45000ms got_ip_ttl=300000ms
+I (199640269) operation: run op-57378723A0693C10 -> connecting
+I (199640269) NimBLE: GATT procedure initiated: notify; 
+I (199640269) cmd: async tryconnect ssid='__ble_selftest_absent__' op=op-57378723A0693C10
+I (199640279) NimBLE: att_handle=10
+
+I (199640309) NimBLE: GATT procedure initiated: notify; 
+I (199640309) NimBLE: att_handle=10
+
+I (199640329) NimBLE: GATT procedure initiated: notify; 
+I (199640329) NimBLE: att_handle=10
+
+I (199640349) NimBLE: GATT procedure initiated: notify; 
+I (199640349) NimBLE: att_handle=10
+
+I (199640369) NimBLE: GATT procedure initiated: notify; 
+I (199640369) NimBLE: att_handle=10
+
+I (199640489) bt_gatts: cmd RX write: 20 byte(s) last=0x22 newline=0
+I (199640489) bt_gatts: cmd RX write: 20 byte(s) last=0x72 newline=0
+I (199640519) bt_gatts: cmd RX write: 20 byte(s) last=0x22 newline=0
+I (199640579) bt_gatts: cmd RX write: 20 byte(s) last=0x66 newline=0
+I (199640579) bt_gatts: cmd RX write: 20 byte(s) last=0x73 newline=0
+I (199640639) bt_gatts: cmd RX write: 20 byte(s) last=0x61 newline=0
+I (199640639) bt_gatts: cmd RX write: 20 byte(s) last=0x6E newline=0
+I (199640669) bt_gatts: cmd RX write: 20 byte(s) last=0x2D newline=0
+I (199640699) bt_gatts: cmd RX write: 20 byte(s) last=0x6B newline=0
+I (199640729) bt_gatts: cmd RX write: 20 byte(s) last=0x30 newline=0
+I (199640759) bt_gatts: cmd RX write: 20 byte(s) last=0x0A newline=1
+I (199640759) ble_cmd: cmd line queued (219 bytes)
+I (199640759) ble_cmd: rx v1 cmd=network.tryconnect id=41
+I (199640769) NimBLE: GATT procedure initiated: notify; 
+I (199640769) NimBLE: att_handle=10
+
+I (199640799) NimBLE: GATT procedure initiated: notify; 
+I (199640799) NimBLE: att_handle=10
+
+I (199640819) NimBLE: GATT procedure initiated: notify; 
+I (199640819) NimBLE: att_handle=10
+
+I (199640839) NimBLE: GATT procedure initiated: notify; 
+I (199640839) NimBLE: att_handle=10
+
+I (199640999) bt_gatts: cmd RX write: 20 byte(s) last=0x22 newline=0
+I (199641059) bt_gatts: cmd RX write: 20 byte(s) last=0x72 newline=0
+I (199641059) bt_gatts: cmd RX write: 20 byte(s) last=0x70 newline=0
+I (199641119) bt_gatts: cmd RX write: 20 byte(s) last=0x37 newline=0
+I (199641119) bt_gatts: cmd RX write: 20 byte(s) last=0x65 newline=0
+I (199641149) bt_gatts: cmd RX write: 20 byte(s) last=0x32 newline=0
+I (199641179) bt_gatts: cmd RX write: 19 byte(s) last=0x0A newline=1
+I (199641179) ble_cmd: cmd line queued (138 bytes)
+I (199641179) ble_cmd: rx v1 cmd=network.apply id=42
+I (199641189) NimBLE: GATT procedure initiated: notify; 
+I (199641189) NimBLE: att_handle=10
+
+I (199641219) NimBLE: GATT procedure initiated: notify; 
+I (199641219) NimBLE: att_handle=10
+
+I (199641239) NimBLE: GATT procedure initiated: notify; 
+I (199641239) NimBLE: att_handle=10
+
+I (199641259) NimBLE: GATT procedure initiated: notify; 
+I (199641259) NimBLE: att_handle=10
+
+I (199641279) NimBLE: GATT procedure initiated: notify; 
+I (199641279) NimBLE: att_handle=10
+
+I (199641419) bt_gatts: cmd RX write: 20 byte(s) last=0x22 newline=0
+I (199641449) bt_gatts: cmd RX write: 20 byte(s) last=0x72 newline=0
+I (199641479) bt_gatts: cmd RX write: 20 byte(s) last=0x6F newline=0
+I (199641539) bt_gatts: cmd RX write: 20 byte(s) last=0x33 newline=0
+I (199641539) bt_gatts: cmd RX write: 20 byte(s) last=0x6B newline=0
+I (199641599) bt_gatts: cmd RX write: 20 byte(s) last=0x30 newline=0
+I (199641609) bt_gatts: cmd RX write: 20 byte(s) last=0x0A newline=1
+I (199641609) ble_cmd: cmd line queued (139 bytes)
+I (199641609) ble_cmd: rx v1 cmd=network.cancel id=43
+W (199641619) cmd: rescue=restore_persistent op=op-57378723A0693C10 (cleanup without commit)
+I (199641619) mqtt: defer_end site=op_cancel/terminal depth_before=1
+I (199641629) mqtt: restart defer end pending=0
+I (199641639) NimBLE: GATT procedure initiated: notify; 
+I (199641639) NimBLE: att_handle=10
+
+I (199641659) NimBLE: GATT procedure initiated: notify; 
+I (199641659) NimBLE: att_handle=10
+
+I (199641679) NimBLE: GATT procedure initiated: notify; 
+I (199641679) NimBLE: att_handle=10
+
+I (199641699) NimBLE: GATT procedure initiated: notify; 
+I (199641699) NimBLE: att_handle=10
+
+I (199641719) NimBLE: GATT procedure initiated: notify; 
+I (199641719) NimBLE: att_handle=10
+
+I (199641869) bt_gatts: cmd RX write: 20 byte(s) last=0x22 newline=0
+I (199641869) bt_gatts: cmd RX write: 20 byte(s) last=0x72 newline=0
+I (199641899) bt_gatts: cmd RX write: 20 byte(s) last=0x6F newline=0
+I (199641929) bt_gatts: cmd RX write: 20 byte(s) last=0x33 newline=0
+I (199641959) bt_gatts: cmd RX write: 20 byte(s) last=0x6B newline=0
+I (199641989) bt_gatts: cmd RX write: 20 byte(s) last=0x30 newline=0
+I (199642049) bt_gatts: cmd RX write: 20 byte(s) last=0x0A newline=1
+I (199642049) ble_cmd: cmd line queued (139 bytes)
+I (199642049) ble_cmd: rx v1 cmd=network.cancel id=44
+I (199642059) NimBLE: GATT procedure initiated: notify; 
+I (199642059) NimBLE: att_handle=10
+
+I (199642089) NimBLE: GATT procedure initiated: notify; 
+I (199642089) NimBLE: att_handle=10
+
+I (199642109) NimBLE: GATT procedure initiated: notify; 
+I (199642109) NimBLE: att_handle=10
+
+I (199642129) NimBLE: GATT procedure initiated: notify; 
+I (199642129) NimBLE: att_handle=10
+
+I (199642149) NimBLE: GATT procedure initiated: notify; 
+I (199642149) NimBLE: att_handle=10
+
+I (199642289) bt_gatts: cmd RX write: 20 byte(s) last=0x22 newline=0
+I (199642289) bt_gatts: cmd RX write: 20 byte(s) last=0x72 newline=0
+I (199642349) bt_gatts: cmd RX write: 20 byte(s) last=0x22 newline=0
+I (199642379) bt_gatts: cmd RX write: 20 byte(s) last=0x66 newline=0
+I (199642409) bt_gatts: cmd RX write: 20 byte(s) last=0x73 newline=0
+I (199642409) bt_gatts: cmd RX write: 20 byte(s) last=0x61 newline=0
+I (199642439) bt_gatts: cmd RX write: 20 byte(s) last=0x6E newline=0
+I (199642469) bt_gatts: cmd RX write: 20 byte(s) last=0x2D newline=0
+I (199642539) bt_gatts: cmd RX write: 20 byte(s) last=0x74 newline=0
+I (199642539) bt_gatts: cmd RX write: 20 byte(s) last=0x37 newline=0
+I (199642589) bt_gatts: cmd RX write: 20 byte(s) last=0x22 newline=0
+I (199642589) bt_gatts: cmd RX write: 2 byte(s) last=0x0A newline=1
+I (199642589) ble_cmd: cmd line queued (221 bytes)
+I (199642589) ble_cmd: rx v1 cmd=network.tryconnect id=45
+I (199642599) mqtt: restart deferred (max 15000ms)
+I (199642609) operation: accepted op-12730EEC7F1F64AA owner=1 ttl=45000ms got_ip_ttl=300000ms
+I (199642609) NimBLE: GATT procedure initiated: notify; 
+I (199642619) NimBLE: att_handle=10
+
+I (199642639) NimBLE: GATT procedure initiated: notify; 
+I (199642639) NimBLE: att_handle=10
+
+I (199642659) NimBLE: GATT procedure initiated: notify; 
+I (199642659) NimBLE: att_handle=10
+
+I (199642679) NimBLE: GATT procedure initiated: notify; 
+I (199642679) NimBLE: att_handle=10
+
+I (199642699) NimBLE: GATT procedure initiated: notify; 
+I (199642699) NimBLE: att_handle=10
+
+I (199643309) bt_gatts: cmd RX write: 20 byte(s) last=0x22 newline=0
+I (199643309) bt_gatts: cmd RX write: 20 byte(s) last=0x74 newline=0
+I (199643309) bt_gatts: cmd RX write: 20 byte(s) last=0x70 newline=0
+I (199643339) bt_gatts: cmd RX write: 20 byte(s) last=0x33 newline=0
+I (199643399) bt_gatts: cmd RX write: 20 byte(s) last=0x65 newline=0
+I (199643429) bt_gatts: cmd RX write: 20 byte(s) last=0x32 newline=0
+I (199643489) bt_gatts: cmd RX write: 19 byte(s) last=0x0A newline=1
+I (199643489) ble_cmd: cmd line queued (138 bytes)
+I (199643489) ble_cmd: rx v1 cmd=operation.get id=46
+I (199643499) NimBLE: GATT procedure initiated: notify; 
+I (199643499) NimBLE: att_handle=10
+
+I (199643519) NimBLE: GATT procedure initiated: notify; 
+I (199643519) NimBLE: att_handle=10
+
+I (199643539) NimBLE: GATT procedure initiated: notify; 
+I (199643539) NimBLE: att_handle=10
+
+I (199643559) NimBLE: GATT procedure initiated: notify; 
+I (199643559) NimBLE: att_handle=10
+
+I (199643579) NimBLE: GATT procedure initiated: notify; 
+I (199643579) NimBLE: att_handle=10
+
+I (199643599) NimBLE: GATT procedure initiated: notify; 
+I (199643599) NimBLE: att_handle=10
+
+I (199643619) NimBLE: GATT procedure initiated: notify; 
+I (199643619) NimBLE: att_handle=10
+
+I (199643639) NimBLE: GATT procedure initiated: notify; 
+I (199643639) NimBLE: att_handle=10
+
+I (199643659) NimBLE: GATT procedure initiated: notify; 
+I (199643659) NimBLE: att_handle=10
+
+I (199643679) NimBLE: GATT procedure initiated: notify; 
+I (199643679) NimBLE: att_handle=10
+
+I (199643699) NimBLE: GATT procedure initiated: notify; 
+I (199643699) NimBLE: att_handle=10
+
+I (199643719) NimBLE: GATT procedure initiated: notify; 
+I (199643719) NimBLE: att_handle=10
+
+I (199643739) NimBLE: GATT procedure initiated: notify; 
+I (199643739) NimBLE: att_handle=10
+
+I (199643759) NimBLE: GATT procedure initiated: notify; 
+I (199643759) NimBLE: att_handle=10
+
+I (199644329) bt_gatts: cmd RX write: 20 byte(s) last=0x22 newline=0
+I (199644359) bt_gatts: cmd RX write: 20 byte(s) last=0x74 newline=0
+I (199644389) bt_gatts: cmd RX write: 20 byte(s) last=0x70 newline=0
+I (199644449) bt_gatts: cmd RX write: 20 byte(s) last=0x33 newline=0
+I (199644449) bt_gatts: cmd RX write: 20 byte(s) last=0x65 newline=0
+I (199644509) bt_gatts: cmd RX write: 20 byte(s) last=0x32 newline=0
+I (199644509) bt_gatts: cmd RX write: 19 byte(s) last=0x0A newline=1
+I (199644509) ble_cmd: cmd line queued (138 bytes)
+I (199644509) ble_cmd: rx v1 cmd=operation.get id=47
+I (199644519) NimBLE: GATT procedure initiated: notify; 
+I (199644529) NimBLE: att_handle=10
+
+I (199644549) NimBLE: GATT procedure initiated: notify; 
+I (199644549) NimBLE: att_handle=10
+
+I (199644569) NimBLE: GATT procedure initiated: notify; 
+I (199644569) NimBLE: att_handle=10
+
+I (199644589) NimBLE: GATT procedure initiated: notify; 
+I (199644589) NimBLE: att_handle=10
+
+I (199644609) NimBLE: GATT procedure initiated: notify; 
+I (199644609) NimBLE: att_handle=10
+
+I (199644629) NimBLE: GATT procedure initiated: notify; 
+I (199644629) NimBLE: att_handle=10
+
+I (199644649) NimBLE: GATT procedure initiated: notify; 
+I (199644649) NimBLE: att_handle=10
+
+I (199644669) NimBLE: GATT procedure initiated: notify; 
+I (199644669) NimBLE: att_handle=10
+
+I (199644689) NimBLE: GATT procedure initiated: notify; 
+I (199644689) NimBLE: att_handle=10
+
+I (199644709) NimBLE: GATT procedure initiated: notify; 
+I (199644709) NimBLE: att_handle=10
+
+I (199644729) NimBLE: GATT procedure initiated: notify; 
+I (199644729) NimBLE: att_handle=10
+
+I (199644749) NimBLE: GATT procedure initiated: notify; 
+I (199644749) NimBLE: att_handle=10
+
+I (199644769) NimBLE: GATT procedure initiated: notify; 
+I (199644769) NimBLE: att_handle=10
+
+I (199644789) NimBLE: GATT procedure initiated: notify; 
+I (199644789) NimBLE: att_handle=10
+
+I (199645169) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=50060 total_published=20201
+W (199645179) cmd: async tryconnect op=op-57378723A0693C10 stale after wait (gen=15 state=7), no job touch
+I (199645179) operation: run op-12730EEC7F1F64AA -> connecting
+I (199645189) cmd: async tryconnect ssid='__ble_selftest_absent__' op=op-12730EEC7F1F64AA
+I (199645349) bt_gatts: cmd RX write: 20 byte(s) last=0x22 newline=0
+I (199645409) bt_gatts: cmd RX write: 20 byte(s) last=0x74 newline=0
+I (199645409) bt_gatts: cmd RX write: 20 byte(s) last=0x70 newline=0
+I (199645409) bt_gatts: cmd RX write: 20 byte(s) last=0x33 newline=0
+I (199645439) bt_gatts: cmd RX write: 20 byte(s) last=0x65 newline=0
+I (199645469) bt_gatts: cmd RX write: 20 byte(s) last=0x32 newline=0
+I (199645499) bt_gatts: cmd RX write: 19 byte(s) last=0x0A newline=1
+I (199645499) ble_cmd: cmd line queued (138 bytes)
+I (199645509) ble_cmd: rx v1 cmd=operation.get id=48
+I (199645509) NimBLE: GATT procedure initiated: notify; 
+I (199645509) NimBLE: att_handle=10
+
+I (199645539) NimBLE: GATT procedure initiated: notify; 
+I (199645539) NimBLE: att_handle=10
+
+I (199645559) NimBLE: GATT procedure initiated: notify; 
+I (199645559) NimBLE: att_handle=10
+
+I (199645579) NimBLE: GATT procedure initiated: notify; 
+I (199645579) NimBLE: att_handle=10
+
+I (199645599) NimBLE: GATT procedure initiated: notify; 
+I (199645599) NimBLE: att_handle=10
+
+I (199645619) NimBLE: GATT procedure initiated: notify; 
+I (199645619) NimBLE: att_handle=10
+
+I (199645639) NimBLE: GATT procedure initiated: notify; 
+I (199645639) NimBLE: att_handle=10
+
+I (199645659) NimBLE: GATT procedure initiated: notify; 
+I (199645659) NimBLE: att_handle=10
+
+I (199645679) NimBLE: GATT procedure initiated: notify; 
+I (199645679) NimBLE: att_handle=10
+
+I (199645699) NimBLE: GATT procedure initiated: notify; 
+I (199645699) NimBLE: att_handle=10
+
+I (199645719) NimBLE: GATT procedure initiated: notify; 
+I (199645719) NimBLE: att_handle=10
+
+I (199645739) NimBLE: GATT procedure initiated: notify; 
+I (199645739) NimBLE: att_handle=10
+
+I (199645759) NimBLE: GATT procedure initiated: notify; 
+I (199645759) NimBLE: att_handle=10
+
+I (199645779) NimBLE: GATT procedure initiated: notify; 
+I (199645779) NimBLE: att_handle=10
+
+I (199645799) NimBLE: GATT procedure initiated: notify; 
+I (199645799) NimBLE: att_handle=10
+
+I (199646399) bt_gatts: cmd RX write: 20 byte(s) last=0x22 newline=0
+I (199646429) bt_gatts: cmd RX write: 20 byte(s) last=0x74 newline=0
+I (199646459) bt_gatts: cmd RX write: 20 byte(s) last=0x70 newline=0
+I (199646519) bt_gatts: cmd RX write: 20 byte(s) last=0x33 newline=0
+I (199646579) bt_gatts: cmd RX write: 20 byte(s) last=0x65 newline=0
+I (199646579) bt_gatts: cmd RX write: 20 byte(s) last=0x32 newline=0
+I (199646639) bt_gatts: cmd RX write: 19 byte(s) last=0x0A newline=1
+I (199646639) ble_cmd: cmd line queued (138 bytes)
+I (199646639) ble_cmd: rx v1 cmd=operation.get id=49
+I (199646649) NimBLE: GATT procedure initiated: notify; 
+I (199646649) NimBLE: att_handle=10
+
+I (199646669) NimBLE: GATT procedure initiated: notify; 
+I (199646669) NimBLE: att_handle=10
+
+I (199646689) NimBLE: GATT procedure initiated: notify; 
+I (199646689) NimBLE: att_handle=10
+
+I (199646709) NimBLE: GATT procedure initiated: notify; 
+I (199646709) NimBLE: att_handle=10
+
+I (199646729) NimBLE: GATT procedure initiated: notify; 
+I (199646729) NimBLE: att_handle=10
+
+I (199646749) NimBLE: GATT procedure initiated: notify; 
+I (199646749) NimBLE: att_handle=10
+
+I (199646769) NimBLE: GATT procedure initiated: notify; 
+I (199646769) NimBLE: att_handle=10
+
+I (199646789) NimBLE: GATT procedure initiated: notify; 
+I (199646789) NimBLE: att_handle=10
+
+I (199646809) NimBLE: GATT procedure initiated: notify; 
+I (199646809) NimBLE: att_handle=10
+
+I (199646829) NimBLE: GATT procedure initiated: notify; 
+I (199646829) NimBLE: att_handle=10
+
+I (199646849) NimBLE: GATT procedure initiated: notify; 
+I (199646849) NimBLE: att_handle=10
+
+I (199646869) NimBLE: GATT procedure initiated: notify; 
+I (199646869) NimBLE: att_handle=10
+
+I (199646889) NimBLE: GATT procedure initiated: notify; 
+I (199646889) NimBLE: att_handle=10
+
+I (199646909) NimBLE: GATT procedure initiated: notify; 
+I (199646909) NimBLE: att_handle=10
+
+I (199646929) NimBLE: GATT procedure initiated: notify; 
+I (199646929) NimBLE: att_handle=10
+
+I (199647479) bt_gatts: cmd RX write: 20 byte(s) last=0x22 newline=0
+I (199647509) bt_gatts: cmd RX write: 20 byte(s) last=0x74 newline=0
+I (199647569) bt_gatts: cmd RX write: 20 byte(s) last=0x70 newline=0
+I (199647569) bt_gatts: cmd RX write: 20 byte(s) last=0x33 newline=0
+I (199647629) bt_gatts: cmd RX write: 20 byte(s) last=0x65 newline=0
+I (199647639) bt_gatts: cmd RX write: 20 byte(s) last=0x32 newline=0
+I (199647659) bt_gatts: cmd RX write: 19 byte(s) last=0x0A newline=1
+I (199647659) ble_cmd: cmd line queued (138 bytes)
+I (199647659) ble_cmd: rx v1 cmd=operation.get id=50
+I (199647669) NimBLE: GATT procedure initiated: notify; 
+I (199647669) NimBLE: att_handle=10
+
+I (199647699) NimBLE: GATT procedure initiated: notify; 
+I (199647699) NimBLE: att_handle=10
+
+I (199647719) NimBLE: GATT procedure initiated: notify; 
+I (199647719) NimBLE: att_handle=10
+
+I (199647739) NimBLE: GATT procedure initiated: notify; 
+I (199647739) NimBLE: att_handle=10
+
+I (199647759) NimBLE: GATT procedure initiated: notify; 
+I (199647759) NimBLE: att_handle=10
+
+I (199647779) NimBLE: GATT procedure initiated: notify; 
+I (199647779) NimBLE: att_handle=10
+
+I (199647799) NimBLE: GATT procedure initiated: notify; 
+I (199647799) NimBLE: att_handle=10
+
+I (199647819) NimBLE: GATT procedure initiated: notify; 
+I (199647819) NimBLE: att_handle=10
+
+I (199647839) NimBLE: GATT procedure initiated: notify; 
+I (199647839) NimBLE: att_handle=10
+
+I (199647859) NimBLE: GATT procedure initiated: notify; 
+I (199647859) NimBLE: att_handle=10
+
+I (199647879) NimBLE: GATT procedure initiated: notify; 
+I (199647879) NimBLE: att_handle=10
+
+I (199647899) NimBLE: GATT procedure initiated: notify; 
+I (199647899) NimBLE: att_handle=10
+
+I (199647919) NimBLE: GATT procedure initiated: notify; 
+I (199647919) NimBLE: att_handle=10
+
+I (199647939) NimBLE: GATT procedure initiated: notify; 
+I (199647939) NimBLE: att_handle=10
+
+I (199647959) NimBLE: GATT procedure initiated: notify; 
+I (199647959) NimBLE: att_handle=10
+
+I (199648529) bt_gatts: cmd RX write: 20 byte(s) last=0x22 newline=0
+I (199648589) bt_gatts: cmd RX write: 20 byte(s) last=0x74 newline=0
+I (199648589) bt_gatts: cmd RX write: 20 byte(s) last=0x70 newline=0
+I (199648619) bt_gatts: cmd RX write: 20 byte(s) last=0x33 newline=0
+I (199648649) bt_gatts: cmd RX write: 20 byte(s) last=0x65 newline=0
+I (199648679) bt_gatts: cmd RX write: 20 byte(s) last=0x32 newline=0
+I (199648709) bt_gatts: cmd RX write: 19 byte(s) last=0x0A newline=1
+I (199648709) ble_cmd: cmd line queued (138 bytes)
+I (199648709) ble_cmd: rx v1 cmd=operation.get id=51
+I (199648719) NimBLE: GATT procedure initiated: notify; 
+I (199648719) NimBLE: att_handle=10
+
+I (199648739) NimBLE: GATT procedure initiated: notify; 
+I (199648739) NimBLE: att_handle=10
+
+I (199648759) NimBLE: GATT procedure initiated: notify; 
+I (199648759) NimBLE: att_handle=10
+
+I (199648779) NimBLE: GATT procedure initiated: notify; 
+I (199648779) NimBLE: att_handle=10
+
+I (199648799) NimBLE: GATT procedure initiated: notify; 
+I (199648799) NimBLE: att_handle=10
+
+I (199648819) NimBLE: GATT procedure initiated: notify; 
+I (199648819) NimBLE: att_handle=10
+
+I (199648839) NimBLE: GATT procedure initiated: notify; 
+I (199648839) NimBLE: att_handle=10
+
+I (199648859) NimBLE: GATT procedure initiated: notify; 
+I (199648859) NimBLE: att_handle=10
+
+I (199648879) NimBLE: GATT procedure initiated: notify; 
+I (199648879) NimBLE: att_handle=10
+
+I (199648899) NimBLE: GATT procedure initiated: notify; 
+I (199648899) NimBLE: att_handle=10
+
+I (199648919) NimBLE: GATT procedure initiated: notify; 
+I (199648919) NimBLE: att_handle=10
+
+I (199648939) NimBLE: GATT procedure initiated: notify; 
+I (199648939) NimBLE: att_handle=10
+
+I (199648959) NimBLE: GATT procedure initiated: notify; 
+I (199648959) NimBLE: att_handle=10
+
+I (199648979) NimBLE: GATT procedure initiated: notify; 
+I (199648979) NimBLE: att_handle=10
+
+I (199648999) NimBLE: GATT procedure initiated: notify; 
+I (199648999) NimBLE: att_handle=10
+
+I (199649549) bt_gatts: cmd RX write: 20 byte(s) last=0x22 newline=0
+I (199649579) bt_gatts: cmd RX write: 20 byte(s) last=0x74 newline=0
+I (199649609) bt_gatts: cmd RX write: 20 byte(s) last=0x70 newline=0
+I (199649639) bt_gatts: cmd RX write: 20 byte(s) last=0x33 newline=0
+I (199649669) bt_gatts: cmd RX write: 20 byte(s) last=0x65 newline=0
+I (199649729) bt_gatts: cmd RX write: 20 byte(s) last=0x32 newline=0
+I (199649729) bt_gatts: cmd RX write: 19 byte(s) last=0x0A newline=1
+I (199649729) ble_cmd: cmd line queued (138 bytes)
+I (199649729) ble_cmd: rx v1 cmd=operation.get id=52
+I (199649739) NimBLE: GATT procedure initiated: notify; 
+I (199649749) NimBLE: att_handle=10
+
+I (199649769) NimBLE: GATT procedure initiated: notify; 
+I (199649769) NimBLE: att_handle=10
+
+I (199649789) NimBLE: GATT procedure initiated: notify; 
+I (199649789) NimBLE: att_handle=10
+
+I (199649809) NimBLE: GATT procedure initiated: notify; 
+I (199649809) NimBLE: att_handle=10
+
+I (199649829) NimBLE: GATT procedure initiated: notify; 
+I (199649829) NimBLE: att_handle=10
+
+I (199649849) NimBLE: GATT procedure initiated: notify; 
+I (199649849) NimBLE: att_handle=10
+
+I (199649869) NimBLE: GATT procedure initiated: notify; 
+I (199649869) NimBLE: att_handle=10
+
+I (199649889) NimBLE: GATT procedure initiated: notify; 
+I (199649889) NimBLE: att_handle=10
+
+I (199649909) NimBLE: GATT procedure initiated: notify; 
+I (199649909) NimBLE: att_handle=10
+
+I (199649929) NimBLE: GATT procedure initiated: notify; 
+I (199649929) NimBLE: att_handle=10
+
+I (199649949) NimBLE: GATT procedure initiated: notify; 
+I (199649949) NimBLE: att_handle=10
+
+I (199649969) NimBLE: GATT procedure initiated: notify; 
+I (199649969) NimBLE: att_handle=10
+
+I (199649989) NimBLE: GATT procedure initiated: notify; 
+I (199649989) NimBLE: att_handle=10
+
+I (199650009) NimBLE: GATT procedure initiated: notify; 
+I (199650009) NimBLE: att_handle=10
+
+I (199650029) NimBLE: GATT procedure initiated: notify; 
+I (199650029) NimBLE: att_handle=10
+
+I (199650419) wifi:state: run -> init (0x0)
+I (199650419) wifi:pm stop, total sleep time: 520565764 us / 612378056 us
+
+I (199650419) wifi:<ba-del>idx:1, tid:0
+I (199650419) wifi:<ba-del>idx:0, tid:6
+I (199650429) wifi: auto_connect: selected saved profile index=1 ssid=CMCC-502 pwd_len=10
+I (199650439) wifi: tryconnect: old disconnect consumed reason=8(ASSOC_LEAVE)
+W (199650439) wifi:I (199650439) mqtt: STA disconnected, stopping MQTT client
+sta_scan: STA is connecting, scan are not allowed!
+E (199650439) transport_base: tcp_read error, errno=Software caused connection abort
+I (199650449) mqtt: Restart task exiting on stop event
+E (199650459) mqtt_client: esp_mqtt_handle_transport_read_error: transport_read() error: errno=113
+E (199650449) wifi: scan: start failed: ESP_ERR_WIFI_STATE
+E (199650469) mqtt: MQTT_EVENT_ERROR: type=1 connect_rc=0
+W (199650479) wifi: tryconnect: pre-scan failed (ESP_ERR_WIFI_STATE), one retry in 500ms
+E (199650479) mqtt_client: mqtt_process_receive: mqtt_message_receive() returned -2
+I (199650489) mqtt: Telemetry task exiting on stop request
+W (199650499) mqtt: MQTT_EVENT_DISCONNECTED (stale client, ignored)
+I (199650489) mqtt: Boost task exiting on stop event
+I (199650599) bt_gatts: cmd RX write: 20 byte(s) last=0x22 newline=0
+I (199650629) bt_gatts: cmd RX write: 20 byte(s) last=0x74 newline=0
+I (199650659) bt_gatts: cmd RX write: 20 byte(s) last=0x70 newline=0
+I (199650719) bt_gatts: cmd RX write: 20 byte(s) last=0x33 newline=0
+I (199650719) bt_gatts: cmd RX write: 20 byte(s) last=0x65 newline=0
+I (199650719) bt_gatts: cmd RX write: 20 byte(s) last=0x32 newline=0
+I (199650779) bt_gatts: cmd RX write: 19 byte(s) last=0x0A newline=1
+I (199650779) ble_cmd: cmd line queued (138 bytes)
+I (199650779) ble_cmd: rx v1 cmd=operation.get id=53
+I (199650789) NimBLE: GATT procedure initiated: notify; 
+I (199650789) NimBLE: att_handle=10
+
+I (199650819) NimBLE: GATT procedure initiated: notify; 
+I (199650819) NimBLE: att_handle=10
+
+I (199650839) NimBLE: GATT procedure initiated: notify; 
+I (199650839) NimBLE: att_handle=10
+
+I (199650859) NimBLE: GATT procedure initiated: notify; 
+I (199650859) NimBLE: att_handle=10
+
+I (199650879) NimBLE: GATT procedure initiated: notify; 
+I (199650879) NimBLE: att_handle=10
+
+I (199650899) NimBLE: GATT procedure initiated: notify; 
+I (199650899) NimBLE: att_handle=10
+
+I (199650919) NimBLE: GATT procedure initiated: notify; 
+I (199650919) NimBLE: att_handle=10
+
+I (199650939) NimBLE: GATT procedure initiated: notify; 
+I (199650939) NimBLE: att_handle=10
+
+I (199650959) NimBLE: GATT procedure initiated: notify; 
+I (199650959) NimBLE: att_handle=10
+
+I (199650979) NimBLE: GATT procedure initiated: notify; 
+I (199650979) NimBLE: att_handle=10
+
+W (199650999) wifi:sta_scan: STA is connecting, scan are not allowed!
+E (199650999) wifi: scan: start failed: ESP_ERR_WIFI_STATE
+I (199650999) NimBLE: GATT procedure initiated: notify; 
+W (199650999) wifi: tryconnect: pre-scan failed twice (ESP_ERR_WIFI_STATE), abort before connect
+I (199651009) NimBLE: att_handle=10
+
+I (199651009) mqtt: defer_end site=op_set_state/terminal depth_before=1
+I (199651019) wifi: apply_begin mode=dhcp source=runtime_restart
+I (199651019) mqtt: restart defer end pending=0
+I (199651029) wifi: apply_cfg: ssid='TQ2026' pwd_len=8 threshold=2(WPA) pmf(capable=1,required=0) scan=0
+I (199651039) NimBLE: GATT procedure initiated: notify; 
+I (199651039) wifi: apply_cfg: STA-only sta_pwd_len=8 static=0
+I (199651049) NimBLE: att_handle=10
+
+I (199651049) wifi:flush txq
+I (199651049) wifi:stop sw txq
+I (199651059) wifi:lmac stop hw txq
+I (199651059) wifi: apply_await_start gen=35
+I (199651069) NimBLE: GATT procedure initiated: notify; 
+I (199651069) wifi:I (199651069) NimBLE: att_handle=10
+
+mode : sta (b0:a7:32:28:c8:e4)
+I (199651079) wifi:enable tsf
+I (199651099) NimBLE: GATT procedure initiated: notify; 
+I (199651099) NimBLE: att_handle=10
+
+I (199651119) NimBLE: GATT procedure initiated: notify; 
+I (199651119) NimBLE: att_handle=10
+
+W (199651229) wifi:Haven't to connect to a suitable AP now!
+W (199651229) wifi: apply_start_probe gen=35 t=144ms driver_started=1
+W (199651229) wifi: probe first schedule deferred to monitor (gen=35)
+I (199651229) wifi: apply_cfg: started (gen=35)
+I (199651239) wifi: net_config_state=dhcp
+I (199651409) wifi: fast_path: ssid='TQ2026' pwd_len=8 threshold=2(WPA) pmf(capable=1,required=0) scan=0
+I (199651409) wifi: auto_connect: fast_path ssid=TQ2026
+I (199651709) bt_gatts: cmd RX write: 20 byte(s) last=0x22 newline=0
+I (199651709) bt_gatts: cmd RX write: 20 byte(s) last=0x74 newline=0
+I (199651769) bt_gatts: cmd RX write: 20 byte(s) last=0x70 newline=0
+I (199651769) bt_gatts: cmd RX write: 20 byte(s) last=0x33 newline=0
+I (199651799) bt_gatts: cmd RX write: 20 byte(s) last=0x65 newline=0
+I (199651829) bt_gatts: cmd RX write: 20 byte(s) last=0x32 newline=0
+I (199651859) bt_gatts: cmd RX write: 19 byte(s) last=0x0A newline=1
+I (199651859) ble_cmd: cmd line queued (138 bytes)
+I (199651859) ble_cmd: rx v1 cmd=operation.get id=54
+I (199651869) NimBLE: GATT procedure initiated: notify; 
+I (199651869) NimBLE: att_handle=10
+
+I (199651899) NimBLE: GATT procedure initiated: notify; 
+I (199651899) NimBLE: att_handle=10
+
+I (199651919) NimBLE: GATT procedure initiated: notify; 
+I (199651919) NimBLE: att_handle=10
+
+I (199651939) NimBLE: GATT procedure initiated: notify; 
+I (199651939) NimBLE: att_handle=10
+
+I (199651959) NimBLE: GATT procedure initiated: notify; 
+I (199651959) NimBLE: att_handle=10
+
+I (199651979) NimBLE: GATT procedure initiated: notify; 
+I (199651979) NimBLE: att_handle=10
+
+I (199651999) NimBLE: GATT procedure initiated: notify; 
+I (199651999) NimBLE: att_handle=10
+
+I (199652019) NimBLE: GATT procedure initiated: notify; 
+I (199652019) NimBLE: att_handle=10
+
+I (199652039) NimBLE: GATT procedure initiated: notify; 
+I (199652039) NimBLE: att_handle=10
+
+I (199652059) NimBLE: GATT procedure initiated: notify; 
+I (199652059) NimBLE: att_handle=10
+
+I (199652079) NimBLE: GATT procedure initiated: notify; 
+I (199652079) NimBLE: att_handle=10
+
+I (199652099) NimBLE: GATT procedure initiated: notify; 
+I (199652099) NimBLE: att_handle=10
+
+I (199652119) NimBLE: GATT procedure initiated: notify; 
+I (199652119) NimBLE: att_handle=10
+
+I (199652139) NimBLE: GATT procedure initiated: notify; 
+I (199652139) NimBLE: att_handle=10
+
+I (199652159) NimBLE: GATT procedure initiated: notify; 
+I (199652159) NimBLE: att_handle=10
+
+I (199652179) NimBLE: GATT procedure initiated: notify; 
+I (199652179) NimBLE: att_handle=10
+
+I (199652199) NimBLE: GATT procedure initiated: notify; 
+I (199652199) NimBLE: att_handle=10
+
+I (199652219) NimBLE: GATT procedure initiated: notify; 
+I (199652219) NimBLE: att_handle=10
+
+I (199653009) wifi: sta_start_evt gen=35 await=0 consumed=35 completed=35 probed=1
+W (199653009) wifi: sta_start_evt gen=35 ignored (probe completed this gen)
+I (199656239) wifi:Coexist: Wi-Fi connect fail, apply reconnect coex policy
+
+W (199656249) wifi: STA disconnected: reason=201(NO_AP_FOUND) retries=0 has_sta=1 profile=0
+I (199656249) wifi: STA down with BLE connected: event-chain retry suppressed; 120s formal-only monitor owns recovery
+I (199656259) mqtt: STA disconnected, stopping MQTT client
+I (199661159) wifi: connect_profile: ssid='CMCC-502' pwd_len=10 threshold=2(WPA) pmf(capable=1,required=0) scan=1
+W (199661159) wifi: STA disconnected: reason=36(OTHER) retries=0 has_sta=1 profile=0
+I (199661159) wifi: auto_connect: selected saved profile index=1 ssid=CMCC-502 pwd_len=10
+I (199661169) wifi: STA down with BLE connected: event-chain retry suppressed; 120s formal-only monitor owns recovery
+I (199661179) mqtt: STA disconnected, stopping MQTT client
+I (199665549) diag: core idle: core0=72% core1=96%
+I (199665549) diag: heap free=48764 min=10340 largest=23552 level=normal | wifi mode=1 ch=14/0 adv=0 conn=1 cf=0 rx_age=13687 role=ble mqtt_outbox=0 mqtt_shed=0 pipe_yield=0
+I (199665999) wifi:new:<8,0>, old:<1,0>, ap:<255,255>, sta:<8,0>, prof:1, snd_ch_cfg:0x0
+I (199665999) wifi:state: init -> auth (0xb0)
+I (199665999) wifi:state: auth -> assoc (0x0)
+I (199666009) wifi:state: assoc -> run (0x10)
+I (199666039) wifi:connected with CMCC-502, aid = 31, channel 8, BW20, bssid = 5c:c0:a0:bd:f6:28
+I (199666039) wifi:security: WPA2-PSK, phy: bgn, rssi: -58, cipher(pairwise:0x3, group:0x1), pmf:0
+I (199666049) wifi:pm start, type: 1
+
+I (199666059) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (199666059) wifi: STA_CONNECTED: dhcpc restarted (connected at t=199665410ms)
+I (199669039) wifi:<ba-add>idx:0 (ifx:0, 5c:c0:a0:bd:f6:28), tid:0, ssn:4, winSize:64
+I (199669229) esp_netif_handlers: sta ip: 192.168.1.28, mask: 255.255.255.0, gw: 192.168.1.1
+I (199669229) wifi: IP_EVENT_STA_GOT_IP: 192.168.1.28 (t=199668585ms from boot, 3175ms from connected)
+W (199669229) mqtt: mqtt restart attempt (backoff step 1)
+I (199669229) netcheck: dns host='139.9.93.245' err=0 ok_pending=0
+I (199669239) data_pipe: port 2 registered
+I (199669249) mqtt: Starting MQTT: uri=mqtt://139.9.93.245:1883, client_id=iothub-B0A73228C8E4, token_len=13, tls=no, will=v1/devices/me/attributes
+I (199669539) wifi:<ba-add>idx:1 (ifx:0, 5c:c0:a0:bd:f6:28), tid:6, ssn:3, winSize:64
+I (199669579) netcheck: mqtt wait out: verdict=1 polls=0 conn=1 fatal=0
+I (199669579) netcheck: ok gen=102 stage=mqtt
+I (199669579) netcheck: stack high watermark=2984 bytes
+I (199669579) wifi: netcheck ok: gen=102 stage=mqtt (mask/backoff reset)
+I (199670049) mqtt: Requested initial attributes: v1/devices/me/attributes/request/43979
+I (199670049) mqtt: MQTT connected: subscribed RPC + shared attrs, requested initial attrs
+I (199670059) mqtt: MQTT_EVENT_SUBSCRIBED: msg_id=21502
+I (199670069) mqtt: MQTT_EVENT_SUBSCRIBED: msg_id=55459
+I (199670069) mqtt: MQTT_EVENT_SUBSCRIBED: msg_id=54324
+I (199670079) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=34449 total_published=20202
+I (199670089) mqtt: MQTT RX topic='v1/devices/me/attributes' len=309 data_preview='{"fw_version":"1.3-2ef2a38","net_mode":"sta","sta_ssid":"TQ2026","sta_ip":"192.168.1.28","bt_mode":"ble","uart_frame":"8N1","uart_baudrate":115200,"relay_state":false,"led_state":true,"input_state":false,"io_seq":612,"io_source":"input","relay_power_policy'
+I (199670119) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=50264 total_published=20202
+I (199670119) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=44559 total_published=20202
+I (199673059) mqtt: 3s boost: re-publish attributes + state to ensure liveness
+I (199673169) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=60644 total_published=20203
+I (199673169) mqtt: MQTT RX topic='v1/devices/me/attributes' len=309 data_preview='{"fw_version":"1.3-2ef2a38","net_mode":"sta","sta_ssid":"TQ2026","sta_ip":"192.168.1.28","bt_mode":"ble","uart_frame":"8N1","uart_baudrate":115200,"relay_state":false,"led_state":true,"input_state":false,"io_seq":612,"io_source":"input","relay_power_policy'
+I (199673269) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=61444 total_published=20203
+I (199679309) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=45853 total_published=20204
+I (199689409) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=15616 total_published=20205
+I (199695549) diag: core idle: core0=73% core1=95%
+I (199695549) diag: heap free=31088 min=10340 largest=23552 level=normal | wifi mode=1 ch=8/0 adv=0 conn=1 cf=0 rx_age=43687 role=ble mqtt_outbox=0 mqtt_shed=0 pipe_yield=0
+I (199699349) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=32764 total_published=20206
+I (199709309) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=41625 total_published=20207
+I (199719349) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=25705 total_published=20208
+I (199725549) diag: core idle: core0=73% core1=96%
+I (199725549) diag: heap free=31088 min=10340 largest=23552 level=normal | wifi mode=1 ch=8/0 adv=0 conn=1 cf=0 rx_age=73689 role=ble mqtt_outbox=0 mqtt_shed=0 pipe_yield=0
+I (199729389) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=39466 total_published=20209
+I (199739319) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=56501 total_published=20210
+I (199749349) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=57905 total_published=20211
+I (199755549) diag: core idle: core0=73% core1=96%
+I (199755549) diag: heap free=31088 min=10340 largest=23552 level=normal | wifi mode=1 ch=8/0 adv=0 conn=1 cf=0 rx_age=103688 role=ble mqtt_outbox=0 mqtt_shed=0 pipe_yield=0
+I (199759389) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=13610 total_published=20212
+I (199760919) state: input active (seq=613)
+I (199760919) state: outputs relay=0 led=0 seq=614 source=input
+I (199760979) state: input inactive (seq=615)
+I (199761029) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=64687 total_published=20213
+I (199761129) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=7118 total_published=20214
+I (199761139) mqtt: MQTT RX topic='v1/devices/me/attributes' len=309 data_preview='{"fw_version":"1.3-2ef2a38","net_mode":"sta","sta_ssid":"TQ2026","sta_ip":"192.168.1.28","bt_mode":"ble","uart_frame":"8N1","uart_baudrate":115200,"relay_state":false,"led_state":false,"input_state":true,"io_seq":614,"io_source":"input","relay_power_policy'
+I (199761399) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=48772 total_published=20214
+I (199761439) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=49524 total_published=20214
+I (199761439) mqtt: MQTT RX topic='v1/devices/me/attributes' len=310 data_preview='{"fw_version":"1.3-2ef2a38","net_mode":"sta","sta_ssid":"TQ2026","sta_ip":"192.168.1.28","bt_mode":"ble","uart_frame":"8N1","uart_baudrate":115200,"relay_state":false,"led_state":false,"input_state":false,"io_seq":615,"io_source":"input","relay_power_polic'
+I (199771469) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=20505 total_published=20215
+I (199781469) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=31545 total_published=20216
+I (199785549) diag: core idle: core0=73% core1=96%
+I (199785549) diag: heap free=29388 min=10340 largest=23552 level=normal | wifi mode=1 ch=8/0 adv=0 conn=1 cf=0 rx_age=133689 role=ble mqtt_outbox=0 mqtt_shed=0 pipe_yield=0
+I (199791429) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=6426 total_published=20217
+I (199801469) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=21269 total_published=20218
+I (199811469) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=9484 total_published=20219
+I (199815549) diag: core idle: core0=74% core1=96%
+I (199815549) diag: heap free=31280 min=10340 largest=23552 level=normal | wifi mode=1 ch=8/0 adv=0 conn=1 cf=0 rx_age=163688 role=ble mqtt_outbox=0 mqtt_shed=0 pipe_yield=0
+I (199821439) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=65449 total_published=20220
+I (199831469) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=9404 total_published=20221
+I (199841509) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=52874 total_published=20222
+I (199845549) diag: core idle: core0=73% core1=95%
+I (199845549) diag: heap free=31280 min=10340 largest=23552 level=normal | wifi mode=1 ch=8/0 adv=0 conn=1 cf=0 rx_age=193689 role=ble mqtt_outbox=0 mqtt_shed=0 pipe_yield=0
+I (199851449) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=22391 total_published=20223
+I (199861479) mqtt: MQTT_EVENT_PUBLISHED: broker ACK msg_id=56395 total_published=20224
