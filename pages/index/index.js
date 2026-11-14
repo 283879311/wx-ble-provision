@@ -42,9 +42,8 @@ Page({
     deviceName: '',
     deviceInfo: null,
     infoRows: [],
-    /* 内存行（堆空闲/历史最低/最大块）：来自 device.status.heap。
-     * 该命令需要 token，所以只在登录后拉一次；未登录留占位块。 */
-    memRows: [],
+    /* 运行态行（堆 / 任务栈 / Flash）：来自 device.status，需 token，登录后拉一次 */
+    statusRows: [],
     resolvedRows: [],
     serviceText: '',
     lastTarget: null,
@@ -253,7 +252,7 @@ Page({
           .catch(() => {});
       }
       /* 回到前台且已登录：内存行没拉过就补一次（例如从设置页回来） */
-      if (protocol.loggedIn && !this.data.memRows.length) this._refreshMemory();
+      if (protocol.loggedIn && !this.data.statusRows.length) this._refreshStatus();
     }
 
     if (!ble.available) {
@@ -765,7 +764,7 @@ Page({
         errHint: identityWarn ? '目标「' + idc.want + '」与实连设备不是同一台（同型号多台在场时常见），请确认后再操作' : '',
       });
       /* 自动登录路径：连接时已有 token，补一次内存行 */
-      if (protocol.loggedIn) this._refreshMemory();
+      if (protocol.loggedIn) this._refreshStatus();
 
       // 手动/弹窗路径连接成功：恢复自动连接资格并清缺席计数，随后启动心跳
       this._manualUntil = 0;
@@ -852,10 +851,11 @@ Page({
     return rows;
   },
 
-  /* device.status.heap/stack → 内存行。字段缺失就少一行，不补 0。 */
-  buildMemRows(status) {
+  /* device.status.heap/stack/partition → 运行态行。字段缺失就少一行，不补 0。 */
+  buildStatusRows(status) {
     const h = (status && status.heap) || {};
     const s = (status && status.stack) || {};
+    const p = (status && status.partition) || {};
     const rows = [];
     if (typeof h.free === 'number') rows.push({ k: '堆空闲', v: formatBytes(h.free) });
     if (typeof h.min_free === 'number') rows.push({ k: '堆历史最低', v: formatBytes(h.min_free) });
@@ -867,25 +867,35 @@ Page({
       });
     }
     if (s.low) rows.push({ k: '栈 <2KB', v: String(s.low) });
+    if (typeof p.flash_total === 'number') rows.push({ k: 'Flash 总容量', v: formatBytes(p.flash_total) });
+    if (typeof p.size === 'number') {
+      rows.push({
+        k: '应用分区',
+        v: typeof p.used === 'number'
+          ? formatBytes(p.used) + ' / ' + formatBytes(p.size)
+          : formatBytes(p.size),
+      });
+    }
+    if (typeof p.free === 'number') rows.push({ k: '分区余量', v: formatBytes(p.free) });
     return rows;
   },
 
-  /* 登录后拉一次 device.status 填内存行；失败只记日志，不影响面板其余部分。
+  /* 登录后拉一次 device.status 填运行态行；失败只记日志，不影响面板其余部分。
    * device.status 需要 token（ble_cmd.c:534），未登录时直接返回。 */
-  async _refreshMemory() {
+  async _refreshStatus() {
     if (!protocol.loggedIn) {
-      if (this.data.memRows.length) this.setData({ memRows: [] });
+      if (this.data.statusRows.length) this.setData({ statusRows: [] });
       return;
     }
     const devId = ble.deviceId; // 迟到的应答不能落到另一台设备的界面上
     try {
       const st = await protocol.deviceStatus();
       if (!protocol.loggedIn || !ble.connected || ble.deviceId !== devId) return;
-      this.setData({ memRows: this.buildMemRows(st) });
+      this.setData({ statusRows: this.buildStatusRows(st) });
     } catch (err) {
       if (ble.deviceId !== devId) return;
-      this.setData({ memRows: [] });
-      this.log('sys', 'device.status 不可用，内存信息暂不显示：' + describe(err).text);
+      this.setData({ statusRows: [] });
+      this.log('sys', 'device.status 不可用，运行态信息暂不显示：' + describe(err).text);
     }
   },
 
@@ -931,7 +941,7 @@ Page({
       this.setData({ loggingIn: false, loggedIn: true, password: '', tokenLeft: ttl });
       this.startTokenTimer();
       /* token 到手后再拉内存（device.status 需要鉴权） */
-      this._refreshMemory();
+      this._refreshStatus();
     } catch (err) {
       const d = describe(err);
       this.setData({ loggingIn: false, errText: d.text, errHint: d.hint });
@@ -989,7 +999,7 @@ Page({
       deviceName: '',
       deviceInfo: null,
       infoRows: [],
-      memRows: [],
+      statusRows: [],
       resolvedRows: [],
       serviceText: '',
       devices: [],

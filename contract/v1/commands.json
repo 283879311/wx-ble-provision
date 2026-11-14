@@ -24,7 +24,7 @@
         "model": "string", "firmware": "string", "build_sha": "string", "device_id": "string",
         "uptime_ms": "number（客户端时间线与串口对时的唯一锚）",
         "reset_reason": "string（poweron|sw|…）",
-        "partition": "object", "heap": "object",
+        "partition": "object { label:string, address:number, size:number（分区容量）, used:number（运行镜像长度，字节）, free:number（分区余量）, flash_total:number（整片 flash 容量）, ota_state?:string }", "heap": "object",
         "stack": "object { min_free:number（表内任务历史最低剩余的最小值，字节）, min_task:string（对应任务名）, low?:string（<2KB 任务列表，空则省略） }",
         "mqtt": { "connected": "bool", "connecting": "bool", "last_error": "string", "outbox": "number", "telemetry_shed": "number" },
         "network": {

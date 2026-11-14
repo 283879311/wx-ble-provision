@@ -214,8 +214,8 @@ page {
   flex: 1;
 }
 
-/* 设备页内存块（pages/index）：预留 3 行 kv 的高度，登录前后不跳动 */
-.mem-block {
+/* 设备页运行态块（pages/index）：预留 3 行 kv 的高度，未登录占位不塌陷 */
+.status-block {
   min-height: 150rpx;
 }
 
