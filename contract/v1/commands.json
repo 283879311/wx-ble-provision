@@ -25,6 +25,7 @@
         "uptime_ms": "number（客户端时间线与串口对时的唯一锚）",
         "reset_reason": "string（poweron|sw|…）",
         "partition": "object", "heap": "object",
+        "stack": "object { min_free:number（表内任务历史最低剩余的最小值，字节）, min_task:string（对应任务名）, low?:string（<2KB 任务列表，空则省略） }",
         "mqtt": { "connected": "bool", "connecting": "bool", "last_error": "string", "outbox": "number", "telemetry_shed": "number" },
         "network": {
           "mode": "string", "cfg_state": "string", "sta_connected": "bool", "sta_has_ip": "bool", "sta_ip": "string",
@@ -40,7 +41,7 @@
         }
       },
       "client_timeout_ms": 10000,
-      "notes": "僵尸链路判据：ble.connected=true 且 ble.rx_age_ms>90000（adv_retry_count 恒 0 不代表看门狗正常——设备认为自己还连着，从未进广播重试）。wire 实录 2026-11-10（1.3-9e1d6c5）逐字段核对。"
+      "notes": "僵尸链路判据：ble.connected=true 且 ble.rx_age_ms>90000（adv_retry_count 恒 0 不代表看门狗正常——设备认为自己还连着，从未进广播重试）。stack.min_free 为任务栈历史最低剩余（自任务创建起单调不增，重启清零），与 heap.min_free（堆）是两回事，勿混。wire 实录 2026-11-10（1.3-9e1d6c5）逐字段核对。"
     },
     "auth.login": {
       "args": { "username": "string", "password": "string" },

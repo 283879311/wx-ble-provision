@@ -852,13 +852,21 @@ Page({
     return rows;
   },
 
-  /* device.status.heap → 内存行。字段缺失就少一行，不补 0。 */
+  /* device.status.heap/stack → 内存行。字段缺失就少一行，不补 0。 */
   buildMemRows(status) {
     const h = (status && status.heap) || {};
+    const s = (status && status.stack) || {};
     const rows = [];
     if (typeof h.free === 'number') rows.push({ k: '堆空闲', v: formatBytes(h.free) });
     if (typeof h.min_free === 'number') rows.push({ k: '堆历史最低', v: formatBytes(h.min_free) });
     if (typeof h.largest === 'number') rows.push({ k: '堆最大可用块', v: formatBytes(h.largest) });
+    if (typeof s.min_free === 'number') {
+      rows.push({
+        k: '任务栈历史最低',
+        v: formatBytes(s.min_free) + (s.min_task ? '（' + s.min_task + '）' : ''),
+      });
+    }
+    if (s.low) rows.push({ k: '栈 <2KB', v: String(s.low) });
     return rows;
   },
 
