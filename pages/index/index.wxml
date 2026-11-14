@@ -113,6 +113,15 @@
       <text class="v">{{item.v}}</text>
     </view>
 
+    <!-- 内存行来自 device.status.heap（需登录）；未登录留等高占位，登录后不跳动 -->
+    <view class="mem-block">
+      <view class="kv" wx:for="{{memRows}}" wx:key="k">
+        <text class="k">{{item.k}}</text>
+        <text class="v">{{item.v}}</text>
+      </view>
+      <view class="hint" wx:if="{{!loggedIn}}">堆内存：登录后显示</view>
+    </view>
+
     <view class="divider"></view>
     <view class="title sm">实际发现的特征</view>
     <view class="hint">{{serviceText}}</view>

@@ -214,6 +214,11 @@ page {
   flex: 1;
 }
 
+/* 设备页内存块（pages/index）：预留 3 行 kv 的高度，登录前后不跳动 */
+.mem-block {
+  min-height: 150rpx;
+}
+
 .mono {
   font-family: "SF Mono", Menlo, Consolas, monospace;
 }
