@@ -6,6 +6,7 @@ const { equals } = require('../../utils/bytes');
 const PRESETS = [
   { label: 'device.info', text: '{"cmd":"device.info","args":{}}' },
   { label: 'network.status', text: '{"cmd":"network.status","args":{}}' },
+  { label: 'io.get', text: '{"cmd":"io.get","args":{}}' },
   { label: 'config.get(all)', text: '{"cmd":"config.get","args":{}}' },
   { label: 'config.get(network)', text: '{"cmd":"config.get","args":{"domains":["network"]}}' },
   { label: 'network.scan', text: '{"cmd":"network.scan","args":{}}' },
