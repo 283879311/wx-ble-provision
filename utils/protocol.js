@@ -30,6 +30,8 @@ const TIMEOUTS = {
   'config.set': 30000,
   'network.scan': 30000, // 扫描本身耗时数秒
   'network.status': 10000,
+  'io.get': 10000, // 契约 commands.json#io.get.client_timeout_ms
+  'io.set': 10000, // 契约 commands.json#io.set.client_timeout_ms
   'network.tryconnect': 20000,
   'operation.get': 10000,
   'network.apply': 15000,
@@ -323,6 +325,15 @@ class Protocol {
 
   /** 注册一个待响应槽；返回 { promise, resolve, reject, timer } */
   _register(id, cmd) {
+    /* 同一 id 不允许覆盖在途槽：旧 entry 的超时回调带「被顶替即返回」保护，
+     * 覆盖会让旧 promise 既不 resolve 也不 reject（静默挂起，日志里连超时都没有）。
+     * 控制台手填 id 与自动编号撞车就会命中——改成显式失败，别让它静默吞掉。 */
+    if (this.pending.has(id)) {
+      throw new ProtocolError(
+        'duplicate_id',
+        '请求 id ' + id + ' 已在途，拒绝覆盖（等它完成或换一个 id）'
+      );
+    }
     const entry = { id: id, cmd: cmd, resolve: null, reject: null, timer: null };
     entry.promise = new Promise((resolve, reject) => {
       entry.resolve = resolve;
