@@ -282,3 +282,5 @@ python3 gen_vectors.py --check   # 校验产物与当前实现是否一致（改
 
 **对端命令**由页面直接给出（含 runId），复制到电脑执行即可；runId 两端必须一致，否则上一轮迟到的 END 会被当成本轮结束，结算出假的 100%。
 # wx-ble-provision
+
+Agent 与自动化协作规则见 [AGENTS.md](AGENTS.md)。
