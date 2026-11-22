@@ -1,8 +1,10 @@
 # IotHub BLE 配网小程序
 
-按 `docs/BLE微信小程序交互协议_T4_2026-10-24.md` 实现的微信小程序：BLE 扫描 → 连接 → 订阅 → 登录 → Wi-Fi 扫描 → 试连 → apply → 确认上线，并内置一份可跑的 T4 验收自检。
+按固件仓当前 `contract/v1/` 与[BLE 微信小程序交互协议](https://github.com/283879311/iothub/blob/main/docs/protocol/BLE微信小程序交互协议_T4_2026-10-24.md)实现的微信小程序：BLE 扫描 → 连接 → 订阅 → 登录 → Wi-Fi 扫描 → 试连 → apply → 确认上线，并内置一份可跑的 T4 验收自检。
 
 面向固件 `feature/shared-config-cmd`（STA-only，AP 配置 schema 已删除）。
+
+项目协作与授权规则见 [AGENTS.md](AGENTS.md)；专项文档和验收记录见 [docs/README.md](docs/README.md)。
 
 ## 四个页面
 
