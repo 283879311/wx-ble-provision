@@ -6,7 +6,7 @@
 |---|---|
 | 缺陷号 | `WIFI-OP-RESOURCE-RACE` |
 | 类别 | Wi-Fi 资源交接 / 生命周期并发 |
-| 状态 | 已登记；修复方案 A **批准进入设计**；固件修改**未批准实施** |
+| 状态 | **已关闭（2026-11-22）**：修复 `185e029`/`dc254d5` 已入 `1.3-1ff92db`；RACE-01/02/03 与 #12 设备回归 PASS（证据见 §11） |
 | 发现 | 2026-11-12 |
 | 设备 | IotHubBLE-C8E4 · B0:A7:32:28:C8:E6（调试口 `/dev/ttyUSB1`） |
 | 固件 | 1.3-2ef2a38（build_sha 98f2465cb） |
@@ -155,6 +155,40 @@ restore_persistent / apply_cfg
 ```
 
 旧关键词（`tryconnect: old link disconnect not observed` / `set_config failed` / `connect failed` / `ssid .* not in scan results`）保留，对应其它故障形态。
+
+---
+
+## 11. 关闭记录（2026-11-22）
+
+### 11.1 结论
+
+`WIFI-OP-RESOURCE-RACE` 判定为**已解决并关闭**。依据是修复后在 `1.3-1ff92db` 上完成的设备回归：三个竞态场景与 #12 全部 PASS，原 `wifi_scan_failed` 现象不再复现。
+
+### 11.2 修复与证据
+
+| 项 | 内容 |
+|---|---|
+| 修复提交 | `185e029`（owner 状态机：TRYX/AUTO/APPLY/CLEANUP/CLEANUP_FAILED）· `dc254d5`（status 快照字段，同期基线） |
+| 验证镜像 | `1.3-1ff92db`（`build_sha 32b10dfa5`），设备 65D8 `10:97:bd:d3:65:d8` |
+| 设备回归记录 | 固件仓 `docs/reviews/WIFI-OP-RESOURCE-RACE_CMD-01_设备复测记录_2026-11-22.md`（提交 `00b5e3a`） |
+| 状态登记 | 固件仓 `docs/status/S6现场验收总览.md`（提交 `7def7cd`） |
+
+### 11.3 关闭条件对照
+
+| 条件 | 结果 |
+|---|---|
+| RACE-01：auto_connect 与 tryconnect 争抢 | PASS：`scheduled(400ms) → task run(410ms) → schedule refused owner_busy`，拒绝发生在 TRYX 持有期间；释放前 auto 连接 0 次 |
+| RACE-02：cancel 后立即新 tryconnect | PASS：`TRYX → CLEANUP → cleanup complete → 新 TRYX`，新 op 在 cleanup 完成后 10ms 取得；终态 `ap_not_found` |
+| RACE-03：cleanup 恢复与 auto 同时 | PASS：CLEANUP 窗口 370ms 内 auto 连接 0 次、被拒 2 次；完成后 1.61s 才出现 auto 连接 |
+| 原 #12 现象回归 | PASS：`busy → operation_state → cancelled×2 → ap_not_found`；`wifi_scan_failed=0`、`ESP_ERR_WIFI_STATE=0` |
+| 观察性修复 | 原缺陷的 `wifi_scan_failed`（预扫描被状态机拒绝）未再出现 |
+
+### 11.4 边界
+
+- 设备结果由执行方采集整理（PC BLE central + 串口）；评审方独立核验的是远端提交、文档与源码逻辑，**未独立连接设备复跑或重算原始证据哈希**。
+- 结论限定在设备 65D8、镜像 `1.3-1ff92db` 与记录覆盖范围内；不推广为其它镜像或全量验收。
+- 本轮只归档与状态变更，未修改代码、Contract 或设备配置；`CMD-01` 已转 `PASS`，`PROTO-ID-01` 保持已关闭。
+- 若后续复测推翻本节结论，重新打开并追加说明，不改写 §1–§10。
 
 ## 附录：关键日志原文
 
