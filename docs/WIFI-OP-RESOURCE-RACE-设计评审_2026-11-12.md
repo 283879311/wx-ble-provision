@@ -1,5 +1,7 @@
 # WIFI-OP-RESOURCE-RACE · 最小设计评审（客户端侧，2026-11-12）
 
+> 文档生命周期：**HISTORICAL**（历史设计/实现评审记录）。最终缺陷状态与设备回归结论以[缺陷主记录 §11](WIFI-OP-RESOURCE-RACE.md#11-关闭记录2026-11-22)为准；本文各轮评审结论按当时上下文保留。
+
 评审对象：`/home/tc/esp/workspace/iothub/docs/WIFI-OP-RESOURCE-RACE-六问回答与最小设计_2026-11-12.md`（A1–A8）
 评审依据：缺陷登记 §5 + 五条评审底线
 结论：**条件通过——设计方向正确，但有 5 处必须补齐，暂不进入补丁阶段**。
@@ -356,4 +358,4 @@ owner==NONE 时直接置 CLEANUP 并 notify restart 任务。若 notify 丢失�
 
 ## 13. 实现评审第二轮（commit 后复核）
 
-（待提交后填写：commit sha / patch sha256 / M1-M2 落实情况）
+本节是 2026-11-12 评审阶段预留的回填位置，后续关闭结果已统一归档在[缺陷主记录 §11](WIFI-OP-RESOURCE-RACE.md#11-关闭记录2026-11-22)。本节不再表示当前仍等待提交或复核。

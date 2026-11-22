@@ -1,5 +1,8 @@
 # 缺陷登记：WIFI-OP-RESOURCE-RACE
 
+> 文档生命周期：**CURRENT**（已关闭缺陷的当前权威记录）。缺陷状态以 §11 关闭记录为准；前序章节保留发现、分析与修复过程，不作为当前执行步骤。
+
+
 **Tryconnect 预扫描与 Auto Connect 争抢 STA 资源，旧 Operation 清理未完成即接受新 Operation**
 
 | 项 | 内容 |

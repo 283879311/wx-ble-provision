@@ -1,6 +1,8 @@
 # T4 #12 `failed/wifi_scan_failed` 串口取证清单
 
-状态：**待取证**（2026-11-12 定稿）。在拿到串口日志前，不改错误分类、不加扫描重试、不放宽判定、不动 cancel 与新 operation 的资源交接。
+> 文档生命周期：**HISTORICAL**（已完成取证阶段的历史清单）。原缺陷已于 2026-11-22 关闭；修复后 #12 设备回归 PASS。本文保留原始采集要求，不再作为当前设备执行指令；最终结论见[WIFI-OP-RESOURCE-RACE 主记录 §11](WIFI-OP-RESOURCE-RACE.md#11-关闭记录2026-11-22)。
+
+历史状态（2026-11-12）：**待取证**。当时要求在取证前不改错误分类、不加扫描重试、不放宽判定、不动 cancel 与新 operation 的资源交接。
 
 - 现场：C8E4 / 固件 1.3-2ef2a38（2026-11-11 23:10 那轮）
 - 现象：`cancel` 后新 tryconnect 被受理，9.3s 后终态 `failed/wifi_scan_failed`；期望 `failed/ap_not_found`
