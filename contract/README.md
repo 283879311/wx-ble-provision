@@ -1,6 +1,6 @@
 # contract/v1 —— 协议契约镜像（客户端仓）
 
-单一事实源在硬件侧仓 `contract/v1/`，本目录是**逐字节镜像**，供小程序代码与 Node 自测消费。
+单一事实源在硬件侧仓 `contract/v1/`，本目录按固件契约同步，供小程序代码与 Node 自测消费。`states.json` 本轮按固件 P1 审查分支同步；`commands.json` 的 wire envelope 与共享命令定义以固件契约为准，同时保留固件 `cmd.c` 已实现但固件契约尚漏登记的 `io.get/io.set` 定义。该两项属于已知源契约文档缺口，不代表客户端自行扩展设备协议。
 
 | 项 | 值 |
 | --- | --- |
@@ -25,3 +25,12 @@
 2. `busy/wifi_config_offline/rate_limited` 的 class 与 retry_after_ms → `acceptance.js` 瞬态重试；
 3. `wifi.scan_throttle_s=3` 残余冷却（自扫描结束起算，客户端记 scanDoneAt）→ `checkScanRepeat`；
 4. `got_ip_semantics` → provision 成功判据与 #13 核验统一为 `internet_verified && mqtt_connected`。
+
+## P1 cleanup_state 同步（2026-11-23）
+
+- 来源：固件仓 `review/p1-operation-finish`，提交 `badda47b532fcecd6a97ada2fb805a2475febf33`。
+- `operation.get` 的 `cleanup_state` 为 `none|running|ok|fail`，只描述 cleanup claim/派发状态；`state` 仍是 operation 生命周期终态的唯一判断依据。
+- 客户端不得因 `cleanup_state=running` 延长终态轮询，不得把 `cleanup_state=ok` 当作网络恢复；网络成功仍以 `network.status` 的运行态字段独立确认。
+- 本同步不改变 `firmware_baseline`：P1 提交 SHA 不是固件版本/build SHA，且 P1 设备验收仍待完成。
+- `commands.json` 已同步固件 envelope 的 ID/UTF-8/`\\u0000` 约束和共享命令定义；客户端保留 `io.get/io.set` 详细定义（固件 `main/cmd.c` 已实现，但固件 Contract 文件尚未登记）。因此本轮不宣称 commands.json 与固件文件逐字节一致；完整源契约漂移仍需固件侧单独修正。
+- 自检入口：`node _verify/contract-selftest.js`。
