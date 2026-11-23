@@ -830,7 +830,7 @@ module.exports = {
       },
       "network.profile.delete": {
         "args": {
-          "profile_id": "string"
+          "ssid": "string, required"
         },
         "possible_errors": [
           "last_profile",
