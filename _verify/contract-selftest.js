@@ -58,6 +58,10 @@ async function main() {
   assert.strictEqual(contract.isTerminal('expired'), true);
   assert.strictEqual(contract.isTerminal('got_ip'), false);
   assert.deepStrictEqual(contract.states.operation_get.success_data.cleanup_state, 'none|running|ok|fail（P1 1.1-draft 加法字段）');
+  const operationGet = contract.commands.commands['operation.get'];
+  assert.strictEqual(operationGet.data, '见 states.json#operation_get（1.3-2ef2a38 起含 error_detail/finished_uptime_ms/stages_source；P1 起含 cleanup_state）');
+  assert.strictEqual(operationGet.notes, '轮询跳出=state 的 terminal_states(4)；500ms 间隔建议。cleanup_state 为独立资源清理诊断字段：state 才是 operation 终态依据，cleanup_state=running 不得覆盖/否定终态且终态下仍可能为 running；不得以 running 永久轮询，也不得把 ok 当作 Wi-Fi restore 完成');
+  assert(operationGet.notes.includes('不得以 running 永久轮询'));
   assert.deepStrictEqual(contract.commands.commands['network.profile.delete'].args, { ssid: 'string, required' });
   assert.deepStrictEqual(contract.commands.commands['data.loopback'].args, { enabled: 'bool, required' });
   const v1Dir = path.join(__dirname, '..', 'contract', 'v1');
@@ -84,7 +88,7 @@ async function main() {
 
   await expectTerminal('success', 'running', 'operation_state');
   await expectTerminal('failed', 'future_value', 'failed');
-  process.stdout.write('contract-selftest: PASS (13 assertion groups)\n');
+  process.stdout.write('contract-selftest: PASS (14 assertion groups)\n');
 }
 
 main().catch(function (err) {
