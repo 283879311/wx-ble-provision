@@ -28,18 +28,9 @@
     "device.info": {
       "args": {},
       "data": {
-        "model": "string",
-        "firmware": "string（1.3-<git短SHA>）",
-        "build_sha": "string（ELF SHA-256 前 9 位）",
-        "device_id": "IotHub-<尾号>",
-        "build_variant": "string",
-        "protocol_versions": "array",
-        "security": {
-          "link_encrypted": "bool",
-          "bonded": "bool",
-          "l2_ready": "bool",
-          "sensitive_writes_allowed": "bool"
-        }
+        "model": "string", "firmware": "string（1.3-<git短SHA>）", "build_sha": "string（ELF SHA-256 前 9 位）",
+        "device_id": "IotHub-<尾号>", "build_variant": "string", "protocol_versions": "array",
+        "security": { "link_encrypted": "bool", "bonded": "bool", "l2_ready": "bool", "sensitive_writes_allowed": "bool" }
       },
       "client_timeout_ms": 10000,
       "notes": "不含 uptime_ms/reset_reason（在 device.status，见下）。身份绑定以 device_id 尾号为准（MAC 尾号不同源，不参与）。wire 实录 2026-11-10（1.3-9e1d6c5）核对。"
@@ -47,260 +38,108 @@
     "device.status": {
       "args": {},
       "data": {
-        "model": "string",
-        "firmware": "string",
-        "build_sha": "string",
-        "device_id": "string",
+        "model": "string", "firmware": "string", "build_sha": "string", "device_id": "string",
         "uptime_ms": "number（客户端时间线与串口对时的唯一锚）",
         "reset_reason": "string（poweron|sw|…）",
-        "partition": "object { label:string, address:number, size:number（分区容量）, used:number（运行镜像长度，字节）, free:number（分区余量）, flash_total:number（整片 flash 容量）, ota_state?:string }",
-        "heap": "object",
+        "partition": "object { label:string, address:number, size:number（分区容量）, used:number（运行镜像长度，字节）, free:number（分区余量）, flash_total:number（整片 flash 容量）, ota_state?:string }", "heap": "object",
         "stack": "object { min_free:number（表内任务历史最低剩余的最小值，字节）, min_task:string（对应任务名）, low?:string（<2KB 任务列表，空则省略） }",
-        "mqtt": {
-          "connected": "bool",
-          "connecting": "bool",
-          "last_error": "string",
-          "outbox": "number",
-          "telemetry_shed": "number"
-        },
+        "mqtt": { "connected": "bool", "connecting": "bool", "last_error": "string", "outbox": "number", "telemetry_shed": "number" },
         "network": {
-          "mode": "string",
-          "cfg_state": "string",
-          "sta_connected": "bool",
-          "sta_has_ip": "bool",
-          "sta_ip": "string",
-          "sta_ssid": "string",
-          "connected_ssid": "string",
-          "connected_profile": "number",
-          "internet_verified": "bool",
-          "net_verify_stage": "string",
-          "mqtt_connected": "bool",
-          "nc_tcp_fails_last": "number",
-          "nc_tcp_last_errno": "number",
-          "last_disconnect": "string",
-          "rssi": "number",
-          "rssi_valid": "bool",
-          "channel": "number",
-          "bssid": "string",
-          "persistent_use_static": "bool",
-          "persistent_static_ip": "string",
-          "password_set": "bool",
-          "trial": "object"
+          "mode": "string", "cfg_state": "string", "sta_connected": "bool", "sta_has_ip": "bool", "sta_ip": "string",
+          "sta_ssid": "string", "connected_ssid": "string", "connected_profile": "number",
+          "internet_verified": "bool", "net_verify_stage": "string", "mqtt_connected": "bool",
+          "nc_tcp_fails_last": "number", "nc_tcp_last_errno": "number",
+          "last_disconnect": "string", "rssi": "number", "rssi_valid": "bool", "channel": "number", "bssid": "string",
+          "persistent_use_static": "bool", "persistent_static_ip": "string", "password_set": "bool", "trial": "object"
         },
         "ble": {
-          "advertising": "bool",
-          "connected": "bool",
-          "conn_find": "number",
-          "mtu": "number",
-          "adv_retry_count": "number",
-          "rx_age_ms": "number",
-          "runtime_mode": "number",
-          "last_error": "string"
+          "advertising": "bool", "connected": "bool", "conn_find": "number", "mtu": "number",
+          "adv_retry_count": "number", "rx_age_ms": "number", "runtime_mode": "number", "last_error": "string"
         }
       },
       "client_timeout_ms": 10000,
-      "notes": "僵尸链路判据：ble.connected=true 且 ble.rx_age_ms>90000（adv_retry_count 恒 0 不代表看门狗正常——设备认为自己还连着，从未进广播重试）。wire 实录 2026-11-10（1.3-9e1d6c5）逐字段核对。"
+      "notes": "僵尸链路判据：ble.connected=true 且 ble.rx_age_ms>90000（adv_retry_count 恒 0 不代表看门狗正常——设备认为自己还连着，从未进广播重试）。stack.min_free 为任务栈历史最低剩余（自任务创建起单调不增，重启清零），与 heap.min_free（堆）是两回事，勿混。wire 实录 2026-11-10（1.3-9e1d6c5）逐字段核对。"
     },
     "auth.login": {
-      "args": {
-        "username": "string",
-        "password": "string"
-      },
-      "data": {
-        "token": "string(32)",
-        "expires_in": "number(600)"
-      },
-      "errors": [
-        "invalid_credentials",
-        "rate_limited"
-      ],
+      "args": { "username": "string", "password": "string" },
+      "data": { "token": "string(32)", "expires_in": "number(600)" },
+      "errors": ["invalid_credentials", "rate_limited"],
       "client_timeout_ms": 10000,
       "notes": "token 只存内存；断连即作废；重登作废旧 token（同来源单槽）"
     },
     "network.status": {
       "args": {},
       "data": {
-        "sta_connected": "bool",
-        "sta_has_ip": "bool",
-        "sta_ip": "string",
-        "last_disconnect": "string",
-        "connected_ssid": "string",
-        "connected_profile": "number",
-        "internet_verified": "bool",
-        "net_verify_stage": "string(none|internet|mqtt|skipped)",
-        "nc_tcp_fails_last": "number",
-        "nc_tcp_last_errno": "number",
-        "rssi": "number",
-        "channel": "number",
-        "bssid": "string",
-        "rssi_valid": "bool",
-        "net_mode": "string",
-        "mqtt_connected": "bool",
-        "sta_ssid": "string",
-        "bluetooth": {
-          "advertising": "bool",
-          "adv_retry_count": "number",
-          "rx_age_ms": "number",
-          "conn": "number"
-        }
+        "sta_connected": "bool", "sta_has_ip": "bool", "sta_ip": "string", "last_disconnect": "string",
+        "connected_ssid": "string", "connected_profile": "number", "internet_verified": "bool",
+        "net_verify_stage": "string(none|internet|mqtt|skipped)", "nc_tcp_fails_last": "number",
+        "nc_tcp_last_errno": "number", "rssi": "number", "channel": "number", "bssid": "string",
+        "rssi_valid": "bool", "net_mode": "string", "mqtt_connected": "bool", "sta_ssid": "string",
+        "bluetooth": { "advertising": "bool", "adv_retry_count": "number", "rx_age_ms": "number", "conn": "number" }
       },
       "client_timeout_ms": 10000,
       "notes": "sta_has_ip≠已联网；判联网看 internet_verified。僵尸链路判据：conn=1 且 rx_age_ms>90000（adv_retry_count 恒 0 不代表看门狗正常）"
     },
     "network.scan": {
-      "args": {
-        "$ref": "见固件 cmd.c"
-      },
-      "data": {
-        "aps": "array",
-        "count": "number"
-      },
-      "errors": [
-        "busy",
-        "wifi_scan_failed"
-      ],
+      "args": { "$ref": "见固件 cmd.c" },
+      "data": { "aps": "array", "count": "number" },
+      "errors": ["busy", "wifi_scan_failed"],
       "client_timeout_ms": 30000,
       "notes": "固件 3s 节流回 busy（等 1s 重试）；BLE 开启下扫描 5-8s 属正常"
     },
     "network.tryconnect": {
-      "args": {
-        "ssid": "string",
-        "password": "string",
-        "idempotency_key": "string, 建议"
-      },
-      "data": {
-        "operation_id": "string",
-        "state": "accepted"
-      },
-      "possible_errors": [
-        "busy",
-        "wifi_config_offline",
-        "invalid_argument",
-        "static_ip_pinned",
-        "wifi_scan_failed"
-      ],
+      "args": { "ssid": "string", "password": "string", "idempotency_key": "string, 建议" },
+      "data": { "operation_id": "string", "state": "accepted" },
+      "possible_errors": ["busy", "wifi_config_offline", "invalid_argument", "static_ip_pinned", "wifi_scan_failed"],
       "client_timeout_ms": 20000,
       "notes": "受理回包必须在操作完成前出站；got_ip 语义见 states.json"
     },
     "operation.get": {
-      "args": {
-        "operation_id": "string, required"
-      },
-      "data": "见 states.json#operation_get（1.3-2ef2a38 起含 error_detail/finished_uptime_ms/stages_source；P1 起含 cleanup_state）",
-      "possible_errors": [
-        "not_found",
-        "params_required",
-        "invalid_argument"
-      ],
+      "args": { "operation_id": "string, required" },
+      "data": "见 states.json#operation_get（1.3-2ef2a38 起含 error_detail/finished_uptime_ms/stages_source）",
+      "possible_errors": ["not_found", "params_required", "invalid_argument"],
       "client_timeout_ms": 10000,
-      "notes": "轮询跳出=state 的 terminal_states(4)；500ms 间隔建议。cleanup_state 为独立资源清理诊断字段：state 才是 operation 终态依据，cleanup_state=running 不得覆盖/否定终态且终态下仍可能为 running；不得以 running 永久轮询，也不得把 ok 当作 Wi-Fi restore 完成"
+      "notes": "轮询跳出=terminal_states(4)；500ms 间隔建议"
     },
     "network.apply": {
-      "args": {
-        "operation_id": "string, required"
-      },
-      "data": {
-        "operation_id": "string",
-        "state": "success",
-        "saved": "bool",
-        "applied": "bool"
-      },
-      "possible_errors": [
-        "params_required",
-        "operation_state",
-        "not_found",
-        "verify_timeout",
-        "storage_failed",
-        "apply_failed",
-        "static_ip_pinned"
-      ],
+      "args": { "operation_id": "string, required" },
+      "data": { "operation_id": "string", "state": "success", "saved": "bool", "applied": "bool" },
+      "possible_errors": ["params_required", "operation_state", "not_found", "verify_timeout", "storage_failed", "apply_failed", "static_ip_pinned"],
       "client_timeout_ms": 15000,
       "notes": "前置 state=got_ip；apply success≠已拿到 IP，需继续轮询 network.status 直到 sta_has_ip 且 connected_ssid=目标"
     },
     "network.cancel": {
-      "args": {
-        "operation_id": "string, required"
-      },
-      "data": {
-        "operation_id": "string",
-        "state": "cancelled"
-      },
-      "possible_errors": [
-        "operation_state",
-        "not_found"
-      ],
+      "args": { "operation_id": "string, required" },
+      "data": { "operation_id": "string", "state": "cancelled" },
+      "possible_errors": ["operation_state", "not_found"],
       "client_timeout_ms": 10000,
       "notes": "cancel 返回≠清理收敛：restore 窗口 2-6s 内新 tryconnect 可能得 wifi_config_offline（瞬态，重试）"
     },
-    "config.get": {
-      "args": {},
-      "data": "配置对象（~1.1KB）",
-      "client_timeout_ms": 30000
-    },
-    "config.set": {
-      "args": "配置对象（域级）",
-      "data": {
-        "effect": "none|reboot",
-        "changed": "array"
-      },
-      "client_timeout_ms": 30000
-    },
-    "network.profile.list": {
-      "args": {},
-      "client_timeout_ms": 15000
-    },
-    "network.profile.delete": {
-      "args": {
-        "ssid": "string, required"
-      },
-      "possible_errors": [
-        "last_profile",
-        "not_found"
-      ],
-      "client_timeout_ms": 15000
-    },
-    "data.loopback": {
-      "args": {
-        "enabled": "bool, required"
-      },
-      "client_timeout_ms": 10000
-    },
+    "config.get": { "args": {}, "data": "配置对象（~1.1KB）", "client_timeout_ms": 30000 },
+    "config.set": { "args": "配置对象（域级）", "data": { "effect": "none|reboot", "changed": "array" }, "client_timeout_ms": 30000 },
+    "network.profile.list": { "args": {}, "client_timeout_ms": 15000 },
+    "network.profile.delete": { "args": { "ssid": "string, required" }, "possible_errors": ["last_profile", "not_found"], "client_timeout_ms": 15000 },
     "io.get": {
       "args": {},
       "data": {
-        "relay_on": "bool",
-        "led_on": "bool",
-        "input_active": "bool",
-        "io_seq": "number",
-        "io_source": "string",
-        "net_mode": "string",
-        "sta_has_ip": "bool",
-        "sta_ip": "string"
+        "relay_on": "bool", "led_on": "bool", "input_active": "bool",
+        "io_seq": "number", "io_source": "string", "net_mode": "string",
+        "sta_has_ip": "bool", "sta_ip": "string"
       },
       "client_timeout_ms": 10000,
       "notes": "CMD-01（2026-11-14）：sta_has_ip/sta_ip 在 runtime lock 内取快照后再构造 JSON，与 network.status 同源，两处读数应一致"
     },
     "io.set": {
-      "args": {
-        "relay_on": "bool?",
-        "led_on": "bool?"
-      },
+      "args": { "relay_on": "bool?", "led_on": "bool?" },
       "data": {
-        "success": "bool",
-        "changed": "array（只列实际翻转的字段）",
-        "effect": "none|reboot|subsys",
-        "relay_on": "bool",
-        "led_on": "bool",
-        "input_active": "bool",
-        "io_seq": "number",
-        "io_source": "string"
+        "success": "bool", "changed": "array（只列实际翻转的字段）", "effect": "none|reboot|subsys",
+        "relay_on": "bool", "led_on": "bool", "input_active": "bool",
+        "io_seq": "number", "io_source": "string"
       },
       "client_timeout_ms": 10000,
-      "possible_errors": [
-        "params_required",
-        "gpio_apply_failed"
-      ],
+      "possible_errors": ["params_required", "gpio_apply_failed"],
       "notes": "relay_on/led_on 至少给一个，否则 params_required"
-    }
+    },
+    "data.loopback": { "args": { "enabled": "bool, required" }, "client_timeout_ms": 10000 }
   }
 }
