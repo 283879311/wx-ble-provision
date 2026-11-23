@@ -6,7 +6,7 @@ const Module = require('module');
 const originalLoad = Module._load;
 const fakeBle = { on: function () {} };
 Module._load = function (request, parent, isMain) {
-  if (parent && /utils\\\\provision\\\\.js$/.test(parent.filename)) {
+  if (parent && /utils\\/provision\\.js$/.test(parent.filename)) {
     if (request === './session') return { ble: fakeBle };
     if (request === './pwstore') return { forget: function () {}, remember: function () {} };
     if (request === './util') return { sleep: function () { return Promise.resolve(); } };
@@ -76,7 +76,7 @@ async function main() {
 
   await expectTerminal('success', 'running', 'operation_state');
   await expectTerminal('failed', 'future_value', 'failed');
-  process.stdout.write('contract-selftest: PASS (11 assertion groups)\\n');
+  process.stdout.write('contract-selftest: PASS (11 assertion groups)\n');
 }
 
 main().catch(function (err) {
