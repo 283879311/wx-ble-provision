@@ -58,6 +58,8 @@ async function main() {
   assert.strictEqual(contract.isTerminal('expired'), true);
   assert.strictEqual(contract.isTerminal('got_ip'), false);
   assert.deepStrictEqual(contract.states.operation_get.success_data.cleanup_state, 'none|running|ok|fail（P1 1.1-draft 加法字段）');
+  assert.deepStrictEqual(contract.commands.commands['network.profile.delete'].args, { ssid: 'string, required' });
+  assert.deepStrictEqual(contract.commands.commands['data.loopback'].args, { enabled: 'bool' });
   const v1Dir = path.join(__dirname, '..', 'contract', 'v1');
   assert.strictEqual(fs.readFileSync(path.join(v1Dir, 'data.js'), 'utf8'), generator.build(v1Dir), 'data.js must match generated Contract');
 
@@ -82,7 +84,7 @@ async function main() {
 
   await expectTerminal('success', 'running', 'operation_state');
   await expectTerminal('failed', 'future_value', 'failed');
-  process.stdout.write('contract-selftest: PASS (12 assertion groups)\n');
+  process.stdout.write('contract-selftest: PASS (13 assertion groups)\n');
 }
 
 main().catch(function (err) {
