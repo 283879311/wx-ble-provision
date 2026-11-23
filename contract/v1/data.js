@@ -439,6 +439,7 @@ module.exports = {
         "operation_id": "string",
         "state": "enum above",
         "error": "flat string（无错=none）",
+        "cleanup_state": "none|running|ok|fail（P1 1.1-draft 加法字段）",
         "trial_id": "string, 仅试用存在时",
         "ssid": "string, 仅试用存在时",
         "stages": {
@@ -457,6 +458,18 @@ module.exports = {
         ],
         "stages_source": "snapshot|live——命中 job/终态快照缓存=snapshot；仅未命中才 live",
         "terminal_snapshot_retention": "4 槽按 op id 的进程内缓存；job 清理后仍返回该 op 最后阶段真值",
+        "cleanup_state": {
+          "since": "P1 review/p1-operation-finish (2026-11-23)",
+          "values": [
+            "none",
+            "running",
+            "ok",
+            "fail"
+          ],
+          "meaning": "P1 cleanup claim/派发状态。ok 只表示资源清理/派发成功，不表示 Wi-Fi 持久配置恢复完成。",
+          "client_rule": "state 是 operation 生命周期终态的唯一判断依据；cleanup_state 是独立的资源清理诊断字段。cleanup_state=running 不得覆盖或否定 operation 终态；终态下仍可能为 running（P1 200ms 兼容行为）。客户端可继续查询 operation.get 观察该字段变化，但不得把 running 作为永久轮询条件，也不得把 ok 当作网络恢复成功条件。网络实际状态仍以 network.status、config.get 等接口为准。",
+          "status": "1.1-draft additive; device acceptance pending"
+        },
         "wire_evidence": "op-36A936F9E7909901 终态 +5s：stages 四项全 true、stages_source=snapshot、finished_uptime_ms=61305"
       }
     },
@@ -570,24 +583,25 @@ module.exports = {
     "$comment": "命令表（单一事实源候选）。args 命名冻结：ssid/password/operation_id/idempotency_key。改任何既有字段名=破坏性变更。",
     "envelope": {
       "request": {
-        "id": "string|number（回显必须一致）",
+        "id": "必填。string（非空、1–64 字节、严格 UTF-8）或有限 number（NaN/Infinity 非法）；回显必须一致",
         "version": "1.0",
         "cmd": "string",
         "args": "object"
       },
       "success": {
-        "id": "echo",
+        "id": "echo：与请求同类型同值；string 原样，number 为 JSON number（按数值语义，不回显 null、不截断小数）",
         "ok": true,
         "data": "object"
       },
       "error": {
-        "id": "echo",
+        "id": "echo；id 缺失、类型不支持、空串、超长、非法 UTF-8 或非法 number 时，响应不含 id 字段",
         "ok": false,
         "error": {
           "code": "string",
           "message": "string"
         }
-      }
+      },
+      "payload_rule": "v1 请求：cJSON 解析成功后，原始 JSON 文本中任意字符串（含对象键与值）出现有效 \\u0000 转义时，返回 invalid_argument，响应省略 id"
     },
     "commands": {
       "device.info": {
@@ -618,8 +632,9 @@ module.exports = {
           "device_id": "string",
           "uptime_ms": "number（客户端时间线与串口对时的唯一锚）",
           "reset_reason": "string（poweron|sw|…）",
-          "partition": "object",
+          "partition": "object { label:string, address:number, size:number（分区容量）, used:number（运行镜像长度，字节）, free:number（分区余量）, flash_total:number（整片 flash 容量）, ota_state?:string }",
           "heap": "object",
+          "stack": "object { min_free:number（表内任务历史最低剩余的最小值，字节）, min_task:string（对应任务名）, low?:string（<2KB 任务列表，空则省略） }",
           "mqtt": {
             "connected": "bool",
             "connecting": "bool",
@@ -750,14 +765,14 @@ module.exports = {
         "args": {
           "operation_id": "string, required"
         },
-        "data": "见 states.json#operation_get（1.3-2ef2a38 起含 error_detail/finished_uptime_ms/stages_source）",
+        "data": "见 states.json#operation_get（1.3-2ef2a38 起含 error_detail/finished_uptime_ms/stages_source；P1 起含 cleanup_state）",
         "possible_errors": [
           "not_found",
           "params_required",
           "invalid_argument"
         ],
         "client_timeout_ms": 10000,
-        "notes": "轮询跳出=terminal_states(4)；500ms 间隔建议"
+        "notes": "轮询跳出=state 的 terminal_states(4)；500ms 间隔建议。cleanup_state 为独立资源清理诊断字段：state 才是 operation 终态依据，cleanup_state=running 不得覆盖/否定终态且终态下仍可能为 running；不得以 running 永久轮询，也不得把 ok 当作 Wi-Fi restore 完成"
       },
       "network.apply": {
         "args": {
@@ -828,6 +843,43 @@ module.exports = {
           "on": "bool"
         },
         "client_timeout_ms": 10000
+      },
+      "io.get": {
+        "args": {},
+        "data": {
+          "relay_on": "bool",
+          "led_on": "bool",
+          "input_active": "bool",
+          "io_seq": "number",
+          "io_source": "string",
+          "net_mode": "string",
+          "sta_has_ip": "bool",
+          "sta_ip": "string"
+        },
+        "client_timeout_ms": 10000,
+        "notes": "CMD-01（2026-11-14）：sta_has_ip/sta_ip 在 runtime lock 内取快照后再构造 JSON，与 network.status 同源，两处读数应一致"
+      },
+      "io.set": {
+        "args": {
+          "relay_on": "bool?",
+          "led_on": "bool?"
+        },
+        "data": {
+          "success": "bool",
+          "changed": "array（只列实际翻转的字段）",
+          "effect": "none|reboot|subsys",
+          "relay_on": "bool",
+          "led_on": "bool",
+          "input_active": "bool",
+          "io_seq": "number",
+          "io_source": "string"
+        },
+        "client_timeout_ms": 10000,
+        "possible_errors": [
+          "params_required",
+          "gpio_apply_failed"
+        ],
+        "notes": "relay_on/led_on 至少给一个，否则 params_required"
       }
     }
   }
