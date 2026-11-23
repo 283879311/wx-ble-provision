@@ -11,6 +11,7 @@
 
 const { sleep } = require('./util');
 const pwstore = require('./pwstore');
+const contract = require('./contract');
 // 全局单例：BLE 断链事件由 session 里的 BleManager 实例发出（系统回调注册在它身上）
 const { ble } = require('./session');
 
@@ -203,18 +204,28 @@ async function provisionWifiImpl(protocol, options) {
 
     if (st.state === 'got_ip') break;
 
-    if (st.state === 'failed' || st.state === 'cancelled' || st.state === 'expired') {
-      const code = st.error && st.error !== 'none' ? st.error : st.state;
-      if (code === 'wrong_password') {
-        /* 设备判定口令错误：本地记忆同步作废，避免下次再自动填坏口令 */
-        try {
-          pwstore.forget(ssid);
-        } catch (e) {
-          /* 忽略 */
+    /* operation.state 是生命周期唯一判据；cleanup_state 仅为诊断字段，
+       不参与终态判断，也不作为继续轮询的条件。 */
+    if (contract.isTerminal(st.state)) {
+      if (st.state === 'failed' || st.state === 'cancelled' || st.state === 'expired') {
+        const code = st.error && st.error !== 'none' ? st.error : st.state;
+        if (code === 'wrong_password') {
+          /* 设备判定口令错误：本地记忆同步作废，避免下次再自动填坏口令 */
+          try {
+            pwstore.forget(ssid);
+          } catch (e) {
+            /* 忽略 */
+          }
         }
+        const perr = new ProvisionError(code, STATE_TEXT[st.state] || st.state);
+        perr.operationId = operationId; /* 失败也要能查 operation.get */
+        throw perr;
       }
-      const perr = new ProvisionError(code, STATE_TEXT[st.state] || st.state);
-      perr.operationId = operationId; /* 失败也要能查 operation.get */
+
+      /* success 是 apply 后的终态；tryconnect 阶段只接受 got_ip，不能把 success
+         当成试连成功或继续轮询到客户端超时。 */
+      const perr = new ProvisionError('operation_state', '试连阶段收到非预期终态：' + st.state);
+      perr.operationId = operationId;
       throw perr;
     }
 
