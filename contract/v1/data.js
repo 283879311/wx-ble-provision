@@ -678,7 +678,7 @@ module.exports = {
           }
         },
         "client_timeout_ms": 10000,
-        "notes": "僵尸链路判据：ble.connected=true 且 ble.rx_age_ms>90000（adv_retry_count 恒 0 不代表看门狗正常——设备认为自己还连着，从未进广播重试）。wire 实录 2026-11-10（1.3-9e1d6c5）逐字段核对。"
+        "notes": "僵尸链路判据：ble.connected=true 且 ble.rx_age_ms>90000（adv_retry_count 恒 0 不代表看门狗正常——设备认为自己还连着，从未进广播重试）。stack.min_free 为任务栈历史最低剩余（自任务创建起单调不增，重启清零），与 heap.min_free（堆）是两回事，勿混。wire 实录 2026-11-10（1.3-9e1d6c5）逐字段核对。"
       },
       "auth.login": {
         "args": {
@@ -765,14 +765,14 @@ module.exports = {
         "args": {
           "operation_id": "string, required"
         },
-        "data": "见 states.json#operation_get（1.3-2ef2a38 起含 error_detail/finished_uptime_ms/stages_source；P1 起含 cleanup_state）",
+        "data": "见 states.json#operation_get（1.3-2ef2a38 起含 error_detail/finished_uptime_ms/stages_source）",
         "possible_errors": [
           "not_found",
           "params_required",
           "invalid_argument"
         ],
         "client_timeout_ms": 10000,
-        "notes": "轮询跳出=state 的 terminal_states(4)；500ms 间隔建议。cleanup_state 为独立资源清理诊断字段：state 才是 operation 终态依据，cleanup_state=running 不得覆盖/否定终态且终态下仍可能为 running；不得以 running 永久轮询，也不得把 ok 当作 Wi-Fi restore 完成"
+        "notes": "轮询跳出=terminal_states(4)；500ms 间隔建议"
       },
       "network.apply": {
         "args": {
@@ -838,12 +838,6 @@ module.exports = {
         ],
         "client_timeout_ms": 15000
       },
-      "data.loopback": {
-        "args": {
-          "enabled": "bool, required"
-        },
-        "client_timeout_ms": 10000
-      },
       "io.get": {
         "args": {},
         "data": {
@@ -880,6 +874,12 @@ module.exports = {
           "gpio_apply_failed"
         ],
         "notes": "relay_on/led_on 至少给一个，否则 params_required"
+      },
+      "data.loopback": {
+        "args": {
+          "enabled": "bool, required"
+        },
+        "client_timeout_ms": 10000
       }
     }
   }
