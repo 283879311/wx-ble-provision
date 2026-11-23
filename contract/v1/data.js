@@ -840,7 +840,7 @@ module.exports = {
       },
       "data.loopback": {
         "args": {
-          "on": "bool"
+          "enabled": "bool, required"
         },
         "client_timeout_ms": 10000
       },
