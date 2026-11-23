@@ -32,5 +32,5 @@
 - `operation.get` 的 `cleanup_state` 为 `none|running|ok|fail`，只描述 cleanup claim/派发状态；`state` 仍是 operation 生命周期终态的唯一判断依据。
 - 客户端不得因 `cleanup_state=running` 延长终态轮询，不得把 `cleanup_state=ok` 当作网络恢复；网络成功仍以 `network.status` 的运行态字段独立确认。
 - 本同步不改变 `firmware_baseline`：P1 提交 SHA 不是固件版本/build SHA，且 P1 设备验收仍待完成。
-- `commands.json` 已同步固件 envelope 的 ID/UTF-8/`\\u0000` 约束和共享命令定义；客户端保留 `io.get/io.set` 详细定义（固件 `main/cmd.c` 已实现，但固件 Contract 文件尚未登记）。因此本轮不宣称 commands.json 与固件文件逐字节一致；完整源契约漂移仍需固件侧单独修正。
+- `commands.json` 已同步固件 envelope 的 ID/UTF-8/`\\u0000` 约束和共享命令定义；客户端保留 `io.get/io.set` 详细定义（固件 `main/cmd_v1.c` 已注册且 `main/cmd.c` 有实现，但固件 Contract 文件尚未登记）；同时将 `network.profile.delete.args` 修正为固件实际接收的 `ssid`，与客户端 `protocol.profileDelete(ssid)` 一致。因此本轮不宣称 commands.json 与固件文件逐字节一致；完整源契约漂移仍需固件侧单独修正。
 - 自检入口：`node _verify/contract-selftest.js`。
